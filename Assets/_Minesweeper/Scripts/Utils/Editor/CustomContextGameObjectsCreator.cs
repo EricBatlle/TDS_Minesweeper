@@ -6,7 +6,7 @@ namespace Utils.Editor
 	public class CustomContextGameObjectsCreator : MonoBehaviour
 	{
 		
-		private const string SettingsAssetPath = "Assets/_CroppedGame/Scripts/ScriptableObjects/CustomContextGameObjectsCreator/CustomContextSettings.asset"; 
+		private const string SettingsAssetPath = "Assets/_Minesweeper/ScriptableObjects/CustomContextSettings.asset"; 
 		private static CustomContextSettings settings;
 
 		private static CustomContextSettings Settings

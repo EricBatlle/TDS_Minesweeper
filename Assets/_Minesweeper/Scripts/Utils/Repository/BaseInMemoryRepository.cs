@@ -4,17 +4,17 @@
 	{
 		private T inMemoryData;
 		
-		public T Get()
+		public virtual T Get()
 		{
 			return inMemoryData ?? Create();
 		}
 
-		public T Create()
+		public virtual T Create()
 		{
 			return new T();
 		}
 
-		public T Update(T data)
+		public virtual T Update(T data)
 		{
 			inMemoryData = data;
 			return inMemoryData;

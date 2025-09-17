@@ -1,10 +1,11 @@
 {
-    "name": "Minesweeper",
-    "rootNamespace": "Minesweeper",
+    "name": "Game",
+    "rootNamespace": "Game",
     "references": [
         "VContainer",
-        "UniTask",
-        "Utils"
+        "Utils",
+        "Utils.VContainer",
+        "TriInspector"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

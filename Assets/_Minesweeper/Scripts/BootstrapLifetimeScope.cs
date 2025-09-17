@@ -1,3 +1,4 @@
+using Utils;
 using VContainer;
 using VContainer.Unity;
 
@@ -7,6 +8,7 @@ namespace Minesweeper
     {
         protected override void Configure(IContainerBuilder builder)
         {
+            builder.Register<UnityRandomProvider>(Lifetime.Singleton).As<IRandomProvider>();
         }
     }
 }

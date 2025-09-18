@@ -3,9 +3,10 @@
     "rootNamespace": "Game",
     "references": [
         "VContainer",
+        "TriInspector",
+        "Unity.TextMeshPro",
         "Utils",
-        "Utils.VContainer",
-        "TriInspector"
+        "Utils.VContainer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

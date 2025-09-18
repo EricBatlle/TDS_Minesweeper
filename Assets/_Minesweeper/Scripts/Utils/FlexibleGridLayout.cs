@@ -35,6 +35,11 @@ namespace Utils
 			rows = rowsCount;
 			CalculateLayoutInputHorizontal();
 		}
+
+		public void ClearLayoutElements()
+		{
+			gameObject.DestroyAllChilds();
+		}
 		
 		public override void CalculateLayoutInputHorizontal()
 		{

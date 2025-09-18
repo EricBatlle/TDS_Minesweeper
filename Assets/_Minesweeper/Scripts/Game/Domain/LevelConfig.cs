@@ -17,5 +17,10 @@ namespace Game
 			MinesCount = minesCount;
 			RowsCount = rowsCount;
 		}
+		
+		public LevelConfig(LevelConfigData data)
+			: this((data ?? throw new ArgumentNullException(nameof(data))).MinesCount, data.RowsCount)
+		{
+		}
 	}
 }

@@ -7,17 +7,23 @@ namespace Game
     public class GameLifetimeScope : LifetimeScope
     {
         [SerializeField]
+        private GameEditorCheater editorCheater;
+        [Space]
+        [SerializeField]
         private GridView gridView;
         [SerializeField]
         private GameObject cellPrefab;
         
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.Register<GamePresenter>(Lifetime.Singleton).As<IInitializable>();
+            builder.RegisterInstance(editorCheater);
+
+            builder.Register<GamePresenter>(Lifetime.Singleton).AsSelf().As<IInitializable>();
 
             builder.Register<LevelRepository>(Lifetime.Singleton);
             builder.Register<CellViewsRepository>(Lifetime.Singleton);
             
+            builder.Register<CellService>(Lifetime.Singleton);
             builder.Register<LevelService>(Lifetime.Singleton);
             
             builder.Register<CreateLevelUseCase>(Lifetime.Singleton);
@@ -25,6 +31,11 @@ namespace Game
 
             builder.RegisterInstance(gridView);
             builder.Register<CellViewFactory>(Lifetime.Singleton).WithParameter(cellPrefab);
+            
+            builder.RegisterBuildCallback(resolver =>
+            {
+                resolver.Inject(editorCheater);
+            });
         }
     }
 }

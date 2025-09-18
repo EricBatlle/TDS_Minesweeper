@@ -10,19 +10,22 @@ namespace Game
 		private readonly GridView gridView;
 		private readonly CellViewFactory cellViewFactory;
 		private readonly CellViewsRepository cellViewsRepository;
+		private readonly CellService cellService;
 
 		public GamePresenter(
 			CellViewsRepository cellViewsRepository,
 			CreateLevelUseCase createLevelUseCase, 
 			SelectCellUseCase selectCellUseCase, 
 			GridView gridView, 
-			CellViewFactory cellViewFactory)
+			CellViewFactory cellViewFactory,
+			CellService cellService)
 		{
 			this.cellViewsRepository = cellViewsRepository;
 			this.createLevelUseCase = createLevelUseCase;
 			this.selectCellUseCase = selectCellUseCase;
 			this.gridView = gridView;
 			this.cellViewFactory = cellViewFactory;
+			this.cellService = cellService;
 		}
 
 		public void Initialize()
@@ -32,6 +35,12 @@ namespace Game
 			var levelConfig = new LevelConfig(5, 5);
 			var level = createLevelUseCase.Execute(levelConfig);
 
+			InitializeGrid(level, levelConfig);
+		}
+
+		public void InitializeGrid(Level level, LevelConfig levelConfig)
+		{
+			gridView.ClearGrid();
 			gridView.SetGridRows(levelConfig.RowsCount);
 			foreach (var cell in level.Cells)
 			{
@@ -46,7 +55,12 @@ namespace Game
 			foreach (var cell in cells)
 			{
 				var cellView = cellViewsRepository.Get(cell);
-				cellView?.UpdateView(cell);
+				cellView?.UpdateView(new CellViewData
+				{
+					Cell = cell,
+					CanShowBombsAround = cellService.CanCellShowBombsAround(cell),
+					BombsAroundCount = cellService.GetNeighborsWithBombCount(cell)
+				});
 			}
 		}
 

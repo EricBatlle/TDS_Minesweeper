@@ -13,5 +13,6 @@ namespace Game
         public Transform CellsSpawnTransform => cellsSpawnTransform;
 
         public void SetGridRows(int rowsCount) => flexibleGridLayout.ResizeByRows(rowsCount);
+        public void ClearGrid() => flexibleGridLayout.ClearLayoutElements();
     }
 }

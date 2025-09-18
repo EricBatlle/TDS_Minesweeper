@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using TriInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game
 {
-	
 	public class CellView : MonoBehaviour
 	{
 		[Serializable]
@@ -23,6 +23,8 @@ namespace Game
         private Button button;
         [SerializeField]
         private Image image;
+        [SerializeField]
+        private TextMeshProUGUI text;
 
         [SerializeField] 
         private List<CellColorAndStateTuple> cellColorAndStateTuples;
@@ -41,10 +43,25 @@ namespace Game
 	        cell = newCell;
         }
 
-        public void UpdateView(Cell newCell)
+        public void UpdateView(CellViewData data)
         {
-	        cell = newCell;
+	        cell = data.Cell;
 	        SetCellState(cell.State);
+	        if (data.CanShowBombsAround)
+	        {
+				SetCellBombsAroundCounter(data.BombsAroundCount);
+	        }
+        }
+
+        private void SetCellBombsAroundCounter(int bombsAroundCount)
+        {
+	        if (bombsAroundCount == 0)
+	        {
+		        text.text = string.Empty;
+		        return;
+	        }
+
+	        text.text = bombsAroundCount.ToString();
         }
 
         private void SetCellState(CellState cellState)

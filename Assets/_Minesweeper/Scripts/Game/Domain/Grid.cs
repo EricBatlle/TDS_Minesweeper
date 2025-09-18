@@ -38,17 +38,18 @@ namespace Game
 		public List<T> GetNeighborsAt(int x, int y)
 		{
 			var neighbors = new List<T>();
-			TryAddNeighbor(x, y, neighbors);
 			
-			
-			TryAddNeighbor(x - 1, y - 1, neighbors);
-			TryAddNeighbor(x - 1, y, neighbors);
 			TryAddNeighbor(x - 1, y + 1, neighbors);
-			TryAddNeighbor(x, y - 1, neighbors);
+			TryAddNeighbor(x - 1, y, neighbors);
+			TryAddNeighbor(x - 1, y - 1, neighbors);
+			
 			TryAddNeighbor(x, y + 1, neighbors);
-			TryAddNeighbor(x + 1, y - 1, neighbors);
-			TryAddNeighbor(x + 1, y, neighbors);
+			TryAddNeighbor(x, y - 1, neighbors);
+			
 			TryAddNeighbor(x + 1, y + 1, neighbors);
+			TryAddNeighbor(x + 1, y, neighbors);
+			TryAddNeighbor(x + 1, y - 1, neighbors);
+
 			return neighbors;
 		}
 
@@ -84,7 +85,7 @@ namespace Game
 		
 		private void TryAddNeighbor(int x, int y, List<T> neighbors)
 		{
-			if (TryGet(x - 1, y - 1, out var cell))
+			if (TryGet(x, y, out var cell))
 			{
 				neighbors.Add(cell);
 			}

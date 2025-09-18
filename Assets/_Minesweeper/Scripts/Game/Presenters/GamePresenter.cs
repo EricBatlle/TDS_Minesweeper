@@ -50,7 +50,7 @@ namespace Game
 			}
 		}
 
-		private void OnCellsOpened(List<Cell> cells)
+		private void OnCellsOpened(HashSet<Cell> cells)
 		{
 			foreach (var cell in cells)
 			{

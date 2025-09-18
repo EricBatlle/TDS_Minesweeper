@@ -48,3 +48,6 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  editorCheater: {fileID: 11400000, guid: d9da58b1d3a15154abbb41d43586c5bb, type: 2}
+  gridView: {fileID: 0}
+  cellPrefab: {fileID: 1428248218743496816, guid: 802cab0eda44a93429b0bcfb783c894f, type: 3}

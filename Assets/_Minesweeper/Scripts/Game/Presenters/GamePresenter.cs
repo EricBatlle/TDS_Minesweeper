@@ -5,26 +5,23 @@ namespace Game
 {
 	public class GamePresenter : IInitializable
 	{
-		private readonly CreateLevelUseCase createLevelUseCase;
 		private readonly SelectCellUseCase selectCellUseCase;
-		private readonly GridView gridView;
-		private readonly CellViewFactory cellViewFactory;
 		private readonly CellViewsRepository cellViewsRepository;
 		private readonly CellService cellService;
+		private readonly GameService gameService;
+		private readonly GameStateMachine gameStateMachine;
 
 		public GamePresenter(
-			CellViewsRepository cellViewsRepository,
-			CreateLevelUseCase createLevelUseCase, 
-			SelectCellUseCase selectCellUseCase, 
-			GridView gridView, 
-			CellViewFactory cellViewFactory,
+			GameStateMachine gameStateMachine,
+			GameService gameService,
+			CellViewsRepository cellViewsRepository, 
+			SelectCellUseCase selectCellUseCase,
 			CellService cellService)
 		{
+			this.gameStateMachine = gameStateMachine;
+			this.gameService = gameService;
 			this.cellViewsRepository = cellViewsRepository;
-			this.createLevelUseCase = createLevelUseCase;
 			this.selectCellUseCase = selectCellUseCase;
-			this.gridView = gridView;
-			this.cellViewFactory = cellViewFactory;
 			this.cellService = cellService;
 		}
 
@@ -32,22 +29,8 @@ namespace Game
 		{
 			selectCellUseCase.CellsOpened += OnCellsOpened;
 
-			var levelConfig = new LevelConfig(5, 5);
-			var level = createLevelUseCase.Execute(levelConfig);
-
-			InitializeGrid(level, levelConfig);
-		}
-
-		public void InitializeGrid(Level level, LevelConfig levelConfig)
-		{
-			gridView.ClearGrid();
-			gridView.SetGridRows(levelConfig.RowsCount);
-			foreach (var cell in level.Cells)
-			{
-				var cellView = cellViewFactory.Create(cell, gridView.CellsSpawnTransform);
-				cellViewsRepository.Update(cell, cellView);
-				cellView.CellClicked += OnCellClicked;
-			}
+			gameService.CreateGame();
+			gameStateMachine.Initialize();
 		}
 
 		private void OnCellsOpened(HashSet<Cell> cells)
@@ -64,9 +47,6 @@ namespace Game
 			}
 		}
 
-		private void OnCellClicked(Cell cell)
-		{
-			selectCellUseCase.Execute(cell);
-		}
+		
 	}
 }

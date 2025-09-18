@@ -11,7 +11,8 @@
 
 		public virtual T Create()
 		{
-			return new T();
+			inMemoryData = new T();
+			return inMemoryData;
 		}
 
 		public virtual T Update(T data)

@@ -9,18 +9,18 @@ namespace Game
 	{
 		[SerializeField]
 		private LevelConfigData levelConfigData;
-		
+
 		[Inject]
-		private GamePresenter gamePresenter;
+		private RefreshLevelUseCase refreshLevelUseCase;
 		[Inject]
-		private CreateLevelUseCase createLevelUseCase;
+		private LevelConfigRepository levelConfigRepository;
 
 		[Button]
 		public void RefreshLevel()
 		{
 			var levelConfig = new LevelConfig(levelConfigData);
-			var level = createLevelUseCase.Execute(levelConfig);
-			gamePresenter.InitializeGrid(level, levelConfig);
+			levelConfigRepository.Update(levelConfig);
+			refreshLevelUseCase.Execute();
 		}
 	}
 }

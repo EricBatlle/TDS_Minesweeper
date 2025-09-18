@@ -7,6 +7,12 @@ namespace Game
 		public int MinesCount { get; }
 		public int RowsCount { get; }
 
+		public LevelConfig()
+		{
+			MinesCount = 5;
+			RowsCount = 5;
+		}
+		
 		public LevelConfig(int minesCount, int rowsCount)
 		{
 			if (minesCount >= rowsCount * rowsCount)

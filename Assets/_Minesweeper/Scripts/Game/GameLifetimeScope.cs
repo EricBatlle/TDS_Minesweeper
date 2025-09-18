@@ -18,16 +18,23 @@ namespace Game
         {
             builder.RegisterInstance(editorCheater);
 
+            new GameStateMachineInstaller().Install(builder);
+            
             builder.Register<GamePresenter>(Lifetime.Singleton).AsSelf().As<IInitializable>();
 
-            builder.Register<LevelRepository>(Lifetime.Singleton);
             builder.Register<CellViewsRepository>(Lifetime.Singleton);
+            builder.Register<LevelConfigRepository>(Lifetime.Singleton);
+            builder.Register<LevelRepository>(Lifetime.Singleton);
+            builder.Register<GameRepository>(Lifetime.Singleton);
             
             builder.Register<CellService>(Lifetime.Singleton);
             builder.Register<LevelService>(Lifetime.Singleton);
+            builder.Register<GameService>(Lifetime.Singleton);
             
             builder.Register<CreateLevelUseCase>(Lifetime.Singleton);
             builder.Register<SelectCellUseCase>(Lifetime.Singleton);
+            builder.Register<InitializeGridUseCase>(Lifetime.Singleton);
+            builder.Register<RefreshLevelUseCase>(Lifetime.Singleton);
 
             builder.RegisterInstance(gridView);
             builder.Register<CellViewFactory>(Lifetime.Singleton).WithParameter(cellPrefab);

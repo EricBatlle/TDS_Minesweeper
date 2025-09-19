@@ -5,5 +5,6 @@
 		Default,
 		Initializing,
 		Started,
+		Lose,
 	}
 }

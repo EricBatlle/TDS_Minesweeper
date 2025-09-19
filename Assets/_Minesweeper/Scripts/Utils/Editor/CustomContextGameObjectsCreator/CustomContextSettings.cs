@@ -8,6 +8,6 @@ namespace Utils.Editor
     {
         public GameObject baseTextPrefab;
         public GameObject baseButtonPrefab;
+        public GameObject baseInputFieldPrefab;
     }
-
 }

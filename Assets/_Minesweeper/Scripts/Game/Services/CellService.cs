@@ -18,7 +18,7 @@ namespace Game
 		
 		public bool CanCellBeSelected(Cell cell)
 		{
-			return cell.State is CellState.Unopen or CellState.Flagged;
+			return cell.State is CellState.Unopen;
 		}
 
 		public bool CanCellBeFlagged(Cell cell)

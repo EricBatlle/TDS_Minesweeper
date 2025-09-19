@@ -16,6 +16,7 @@ namespace Game
         private IGameState currentState;
 
         public GameStateMachine(
+            SelectCellUseCase selectCellUseCase,
             RefreshLevelUseCase refreshLevelUseCase,
             InitializeGridUseCase initializeGridUseCase,
             GameService gameService,
@@ -25,12 +26,14 @@ namespace Game
 
             initializeGridUseCase.GridInitialized += OnGridInitialized;
             refreshLevelUseCase.RefreshLevel += OnRefreshLevel;
+            selectCellUseCase.BombSelected += OnBombSelected;
 
             this.states = states.ToDictionary(state => state.Id);
             validTransitions = new Dictionary<GameState, HashSet<GameState>> {
                 { GameState.Default, new() { GameState.Initializing } },
                 { GameState.Initializing, new() { GameState.Started } },
-                { GameState.Started, new() { GameState.Initializing } },
+                { GameState.Started, new() { GameState.Initializing, GameState.Lose } },
+                { GameState.Lose, new() { GameState.Initializing } },
             };
             
             currentState = this.states[GameState.Default];
@@ -61,5 +64,6 @@ namespace Game
         
         private void OnGridInitialized() => TryChangeState(GameState.Started).Forget();
         private void OnRefreshLevel() => TryChangeState(GameState.Initializing).Forget();
+        private void OnBombSelected(Cell cell) => TryChangeState(GameState.Lose).Forget();
     }
 }

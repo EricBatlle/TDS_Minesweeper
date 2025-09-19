@@ -18,7 +18,7 @@ namespace NavigationSystem
 		public void Install(IContainerBuilder builder)
 		{
 			builder.Register<NavigationSystem>(Lifetime.Singleton).WithParameter(rootCanvas);
-			builder.Register<ViewsFactory>(Lifetime.Singleton);
+			builder.Register<ViewsFactory>(Lifetime.Singleton).WithParameter(this);
 			builder.RegisterInstance(viewsContainer);
 		}
 	}

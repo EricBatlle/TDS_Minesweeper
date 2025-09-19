@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd466d2ce322b845a72df4623896152, type: 3}
   m_Name: ViewsContainer
   m_EditorClassIdentifier: 
-  views: []
+  views:
+  - type: 0
+    prefab: {fileID: 8507110913467498565, guid: 07e70943862131b44aca7ca27dda8ad4, type: 3}

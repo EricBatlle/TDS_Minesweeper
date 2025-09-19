@@ -1,3 +1,4 @@
+using NavigationSystem;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -8,6 +9,13 @@ namespace Game
     {
         [SerializeField]
         private GameEditorCheater editorCheater;
+
+        [Space] 
+        [Header("Navigation System")] 
+        [SerializeField]
+        private ViewsContainer viewsContainer;
+        [SerializeField]
+        private Transform rootCanvas;
         [Space]
         [SerializeField]
         private GridView gridView;
@@ -18,6 +26,7 @@ namespace Game
         {
             builder.RegisterInstance(editorCheater);
 
+            new NavigationSystemInstaller(rootCanvas, viewsContainer).Install(builder);
             new GameStateMachineInstaller().Install(builder);
             
             builder.Register<GamePresenter>(Lifetime.Singleton).AsSelf().As<IInitializable>();
@@ -34,8 +43,11 @@ namespace Game
             builder.Register<CreateLevelUseCase>(Lifetime.Singleton);
             builder.Register<TryFlagCellUseCase>(Lifetime.Singleton);
             builder.Register<SelectCellUseCase>(Lifetime.Singleton);
-            builder.Register<InitializeGridUseCase>(Lifetime.Singleton);
             builder.Register<RefreshLevelUseCase>(Lifetime.Singleton);
+            
+            builder.Register<InitializeGridUseCase>(Lifetime.Singleton);
+            builder.Register<RevealAllLevelBombsUseCase>(Lifetime.Singleton);
+            
 
             builder.RegisterInstance(gridView);
             builder.Register<CellViewFactory>(Lifetime.Singleton).WithParameter(cellPrefab);

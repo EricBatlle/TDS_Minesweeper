@@ -26,5 +26,15 @@
 		{
 			return gameRepository.Get();
 		}
+
+		public void SetGameFinalSelectedCell(Cell cell)
+		{
+			gameRepository.Get().LoseGameCell = cell;
+		}
+		
+		public Cell GetGameFinalSelectedCell()
+		{
+			return gameRepository.Get().LoseGameCell;
+		}
 	}
 }

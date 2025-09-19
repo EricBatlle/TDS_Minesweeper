@@ -7,13 +7,18 @@ namespace Game
 	public class SelectCellUseCase
 	{
 		public Action<HashSet<Cell>> CellsOpened;
-		public Action BombSelected;
+		public Action<Cell> BombSelected;
 
 		private readonly LevelRepository levelRepository;
 		private readonly CellService cellService;
+		private readonly GameService gameService;
 
-		public SelectCellUseCase(CellService cellService, LevelRepository levelRepository)
+		public SelectCellUseCase(
+			GameService gameService,
+			CellService cellService, 
+			LevelRepository levelRepository)
 		{
+			this.gameService = gameService;
 			this.cellService = cellService;
 			this.levelRepository = levelRepository;
 		}
@@ -28,7 +33,8 @@ namespace Game
 			selectedCell.State = CellState.Unopen;
 			if (selectedCell.HasBomb)
 			{
-				BombSelected?.Invoke();
+				gameService.SetGameFinalSelectedCell(selectedCell);
+				BombSelected?.Invoke(selectedCell);
 			}
 			else
 			{

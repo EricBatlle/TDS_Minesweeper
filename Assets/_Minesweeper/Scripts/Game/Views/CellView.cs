@@ -24,14 +24,18 @@ namespace Game
         [SerializeField]
         private CustomButton button;
         [SerializeField]
-        private Image image;
+        private Image backgroundImage;
         [SerializeField]
         private TextMeshProUGUI text;
         [SerializeField]
         private GameObject flagGameObject;
+        [SerializeField]
+        private GameObject bombGameObject;
 
-        [SerializeField] 
+        [SerializeField]
         private List<CellColorAndStateTuple> cellColorAndStateTuples;
+        [SerializeField]
+        private Color selectedBombBackgroundColor;
 
         [SerializeField]
         [ReadOnly]
@@ -48,13 +52,26 @@ namespace Game
 	        cell = newCell;
         }
 
-        public void UpdateView(CellViewData data)
+        public void UpdateView(CellViewData viewData)
         {
-	        cell = data.Cell;
+	        cell = viewData.Cell;
 	        SetCellBackground(cell.State);
-	        if (data.CanShowBombsAround)
+	        if (viewData.CanShowBombsAround)
 	        {
-				SetCellBombsAroundCounter(data.BombsAroundCount);
+				SetCellBombsAroundCounter(viewData.BombsAroundCount);
+	        }
+        }
+
+        public void RevealBomb(bool isSelectedBomb)
+        {
+	        bombGameObject.SetActive(cell.HasBomb);
+	        if (isSelectedBomb)
+	        {
+		        SetCellBackgroundColor(selectedBombBackgroundColor);
+	        }
+	        else
+	        {
+		        SetCellBackground(CellState.Open);
 	        }
         }
 
@@ -71,8 +88,13 @@ namespace Game
 
         private void SetCellBackground(CellState cellState)
         {
-	        image.color = cellColorAndStateTuples.First(tuple => tuple.state == cellState).color;
+	        SetCellBackgroundColor(cellColorAndStateTuples.First(tuple => tuple.state == cellState).color);
 	        flagGameObject.SetActive(cellState == CellState.Flagged);
+        }
+
+        private void SetCellBackgroundColor(Color color)
+        {
+	        backgroundImage.color = color;
         }
 
         private void OnCellLeftClicked()

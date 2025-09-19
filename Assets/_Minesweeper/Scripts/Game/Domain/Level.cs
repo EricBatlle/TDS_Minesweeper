@@ -9,6 +9,7 @@ namespace Game
 		private Grid<Cell> Grid { get; }
 
 		public List<Cell> Cells => Grid.ToList();
+		public List<Cell> CellsWithBomb => Grid.Where(cell => cell.HasBomb).ToList();
 
 		public Level()
 		{

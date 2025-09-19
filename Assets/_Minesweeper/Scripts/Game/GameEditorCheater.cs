@@ -1,3 +1,4 @@
+using NavigationSystem;
 using TriInspector;
 using UnityEngine;
 using VContainer;
@@ -11,6 +12,8 @@ namespace Game
 		private LevelConfigData levelConfigData;
 
 		[Inject]
+		private NavigationSystem.NavigationSystem navigationSystem;
+		[Inject]
 		private RefreshLevelUseCase refreshLevelUseCase;
 		[Inject]
 		private LevelConfigRepository levelConfigRepository;
@@ -21,6 +24,12 @@ namespace Game
 			var levelConfig = new LevelConfig(levelConfigData);
 			levelConfigRepository.Update(levelConfig);
 			refreshLevelUseCase.Execute();
+		}
+
+		[Button]
+		public void OpenView(ViewType viewType)
+		{
+			navigationSystem.Open(viewType);
 		}
 	}
 }

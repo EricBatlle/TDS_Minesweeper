@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTextPrefab: {fileID: 1709501444907512556, guid: c88665631a8097e469f2120be5203464, type: 3}
   baseButtonPrefab: {fileID: 6970930539065647461, guid: da62c403d1c793f47b3c2fb6dcee227b, type: 3}
+  baseInputFieldPrefab: {fileID: 4539175173064415390, guid: ceaf03bfac5c99b449bc70b4f2665b2e, type: 3}

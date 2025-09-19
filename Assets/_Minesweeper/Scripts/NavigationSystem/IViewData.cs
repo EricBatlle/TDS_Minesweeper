@@ -1,7 +1,6 @@
 ﻿namespace NavigationSystem
 {
-	public enum ViewType
+	public interface IViewData
 	{
-		Lose,
 	}
 }

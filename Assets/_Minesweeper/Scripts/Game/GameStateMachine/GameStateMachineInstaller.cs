@@ -10,6 +10,7 @@ namespace Game
 			builder.Register<DefaultState>(Lifetime.Singleton).As<IGameState>();
 			builder.Register<InitializingState>(Lifetime.Singleton).As<IGameState>();
 			builder.Register<StartedState>(Lifetime.Singleton).As<IGameState>();
+			builder.Register<LoseState>(Lifetime.Singleton).As<IGameState>();
 
 			builder.Register<GameStateMachine>(Lifetime.Singleton);
 		}

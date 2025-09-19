@@ -8,6 +8,7 @@ namespace Game
 		private readonly TryFlagCellUseCase tryFlagCellUseCase;
 		private readonly SelectCellUseCase selectCellUseCase;
 		private readonly CellViewsRepository cellViewsRepository;
+		
 		private readonly CellService cellService;
 		private readonly GameService gameService;
 		private readonly GameStateMachine gameStateMachine;
@@ -37,7 +38,7 @@ namespace Game
 			gameService.CreateGame();
 			gameStateMachine.Initialize();
 		}
-		
+
 		private void OnCellUnflagged(Cell cell)
 		{
 			UpdateCellView(cell);

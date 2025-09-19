@@ -10,14 +10,17 @@ namespace Game
 		private readonly GridView gridView;
 		private readonly CellViewFactory cellViewFactory;
 		private readonly SelectCellUseCase selectCellUseCase;
+		private readonly TryFlagCellUseCase tryFlagCellUseCase;
 		private readonly CellViewsRepository cellViewsRepository;
 
 		public InitializeGridUseCase(
 			GridView gridView, 
 			CellViewFactory cellViewFactory, 
 			SelectCellUseCase selectCellUseCase, 
+			TryFlagCellUseCase tryFlagCellUseCase,
 			CellViewsRepository cellViewsRepository)
 		{
+			this.tryFlagCellUseCase = tryFlagCellUseCase;
 			this.gridView = gridView;
 			this.cellViewFactory = cellViewFactory;
 			this.selectCellUseCase = selectCellUseCase;
@@ -32,15 +35,21 @@ namespace Game
 			{
 				var cellView = cellViewFactory.Create(cell, gridView.CellsSpawnTransform);
 				cellViewsRepository.Update(cell, cellView);
-				cellView.CellClicked += OnCellClicked;
+				cellView.CellLeftClicked += OnCellLeftClicked;
+				cellView.CellRightClicked += OnCellRightClicked;
 			}
 
 			GridInitialized?.Invoke();
 		}
 		
-		private void OnCellClicked(Cell cell)
+		private void OnCellLeftClicked(Cell cell)
 		{
 			selectCellUseCase.Execute(cell);
+		}
+		
+		private void OnCellRightClicked(Cell cell)
+		{
+			tryFlagCellUseCase.Execute(cell);
 		}
 	}
 }

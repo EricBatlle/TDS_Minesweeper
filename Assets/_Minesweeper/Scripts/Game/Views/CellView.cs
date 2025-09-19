@@ -5,6 +5,7 @@ using TMPro;
 using TriInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace Game
 {
@@ -17,14 +18,17 @@ namespace Game
 			public Color color;
 		}
 
-		public Action<Cell> CellClicked;
+		public Action<Cell> CellLeftClicked;
+		public Action<Cell> CellRightClicked;
 
         [SerializeField]
-        private Button button;
+        private CustomButton button;
         [SerializeField]
         private Image image;
         [SerializeField]
         private TextMeshProUGUI text;
+        [SerializeField]
+        private GameObject flagGameObject;
 
         [SerializeField] 
         private List<CellColorAndStateTuple> cellColorAndStateTuples;
@@ -35,7 +39,8 @@ namespace Game
 
         private void Awake()
         {
-	        button.onClick.AddListener(OnCellClicked);
+	        button.onLeftClick.AddListener(OnCellLeftClicked);
+	        button.onRightClick.AddListener(OnCellRightClicked);
         }
 
         public void SetUp(Cell newCell)
@@ -46,7 +51,7 @@ namespace Game
         public void UpdateView(CellViewData data)
         {
 	        cell = data.Cell;
-	        SetCellState(cell.State);
+	        SetCellBackground(cell.State);
 	        if (data.CanShowBombsAround)
 	        {
 				SetCellBombsAroundCounter(data.BombsAroundCount);
@@ -64,14 +69,20 @@ namespace Game
 	        text.text = bombsAroundCount.ToString();
         }
 
-        private void SetCellState(CellState cellState)
+        private void SetCellBackground(CellState cellState)
         {
 	        image.color = cellColorAndStateTuples.First(tuple => tuple.state == cellState).color;
+	        flagGameObject.SetActive(cellState == CellState.Flagged);
         }
 
-        private void OnCellClicked()
+        private void OnCellLeftClicked()
         {
-	        CellClicked?.Invoke(cell);
+	        CellLeftClicked?.Invoke(cell);
+        }
+        
+        private void OnCellRightClicked()
+        {
+	        CellRightClicked?.Invoke(cell);
         }
 	}
 }

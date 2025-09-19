@@ -10,14 +10,21 @@ namespace Game
 		public Action BombSelected;
 
 		private readonly LevelRepository levelRepository;
+		private readonly CellService cellService;
 
-		public SelectCellUseCase(LevelRepository levelRepository)
+		public SelectCellUseCase(CellService cellService, LevelRepository levelRepository)
 		{
+			this.cellService = cellService;
 			this.levelRepository = levelRepository;
 		}
 
 		public void Execute(Cell selectedCell)
 		{
+			if (!cellService.CanCellBeSelected(selectedCell))
+			{
+				return;
+			}
+
 			selectedCell.State = CellState.Unopen;
 			if (selectedCell.HasBomb)
 			{

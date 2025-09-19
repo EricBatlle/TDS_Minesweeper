@@ -5,6 +5,7 @@ namespace Game
 {
 	public class GamePresenter : IInitializable
 	{
+		private readonly TryFlagCellUseCase tryFlagCellUseCase;
 		private readonly SelectCellUseCase selectCellUseCase;
 		private readonly CellViewsRepository cellViewsRepository;
 		private readonly CellService cellService;
@@ -12,12 +13,14 @@ namespace Game
 		private readonly GameStateMachine gameStateMachine;
 
 		public GamePresenter(
+			TryFlagCellUseCase tryFlagCellUseCase,
 			GameStateMachine gameStateMachine,
 			GameService gameService,
 			CellViewsRepository cellViewsRepository, 
 			SelectCellUseCase selectCellUseCase,
 			CellService cellService)
 		{
+			this.tryFlagCellUseCase = tryFlagCellUseCase;
 			this.gameStateMachine = gameStateMachine;
 			this.gameService = gameService;
 			this.cellViewsRepository = cellViewsRepository;
@@ -28,25 +31,41 @@ namespace Game
 		public void Initialize()
 		{
 			selectCellUseCase.CellsOpened += OnCellsOpened;
+			tryFlagCellUseCase.CellFlagged += OnCellFlagged;
+			tryFlagCellUseCase.CellUnflagged += OnCellUnflagged;
 
 			gameService.CreateGame();
 			gameStateMachine.Initialize();
+		}
+		
+		private void OnCellUnflagged(Cell cell)
+		{
+			UpdateCellView(cell);
+		}
+
+		private void OnCellFlagged(Cell cell)
+		{
+			UpdateCellView(cell);
 		}
 
 		private void OnCellsOpened(HashSet<Cell> cells)
 		{
 			foreach (var cell in cells)
 			{
-				var cellView = cellViewsRepository.Get(cell);
-				cellView?.UpdateView(new CellViewData
-				{
-					Cell = cell,
-					CanShowBombsAround = cellService.CanCellShowBombsAround(cell),
-					BombsAroundCount = cellService.GetNeighborsWithBombCount(cell)
-				});
+				UpdateCellView(cell);
 			}
 		}
 
+		private void UpdateCellView(Cell cell)
+		{
+			var cellView = cellViewsRepository.Get(cell);
+			cellView?.UpdateView(new CellViewData
+			{
+				Cell = cell,
+				CanShowBombsAround = cellService.CanCellShowBombsAround(cell),
+				BombsAroundCount = cellService.GetNeighborsWithBombCount(cell)
+			});
+		}
 		
 	}
 }

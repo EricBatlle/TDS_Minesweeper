@@ -14,7 +14,7 @@ namespace Game
 		[Inject]
 		private NavigationSystem.NavigationSystem navigationSystem;
 		[Inject]
-		private RefreshLevelUseCase refreshLevelUseCase;
+		private SetLevelUseCase setLevelUseCase;
 		[Inject]
 		private LevelConfigRepository levelConfigRepository;
 
@@ -23,7 +23,7 @@ namespace Game
 		{
 			var levelConfig = new LevelConfig(levelConfigData);
 			levelConfigRepository.Update(levelConfig);
-			refreshLevelUseCase.Execute();
+			setLevelUseCase.Execute(levelConfig);
 		}
 
 		[Button]

@@ -17,7 +17,7 @@ namespace Game
 
         public GameStateMachine(
             SelectCellUseCase selectCellUseCase,
-            RefreshLevelUseCase refreshLevelUseCase,
+            SetLevelUseCase setLevelUseCase,
             InitializeGridUseCase initializeGridUseCase,
             GameService gameService,
             IEnumerable<IGameState> states)
@@ -25,7 +25,7 @@ namespace Game
             this.gameService = gameService;
 
             initializeGridUseCase.GridInitialized += OnGridInitialized;
-            refreshLevelUseCase.RefreshLevel += OnRefreshLevel;
+            setLevelUseCase.NewLevelSet += OnNewLevelSet;
             selectCellUseCase.BombSelected += OnBombSelected;
 
             this.states = states.ToDictionary(state => state.Id);
@@ -63,7 +63,7 @@ namespace Game
         }
         
         private void OnGridInitialized() => TryChangeState(GameState.Started).Forget();
-        private void OnRefreshLevel() => TryChangeState(GameState.Initializing).Forget();
+        private void OnNewLevelSet() => TryChangeState(GameState.Initializing).Forget();
         private void OnBombSelected(Cell cell) => TryChangeState(GameState.Lose).Forget();
     }
 }

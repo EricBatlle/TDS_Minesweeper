@@ -6,24 +6,25 @@ namespace Game
 	{
 		public GameState Id => GameState.Initializing;
 		
-		private readonly CreateLevelUseCase createLevelUseCase;
+		private readonly SetLevelUseCase setLevelUseCase;
 		private readonly InitializeGridUseCase initializeGridUseCase;
 		private readonly LevelConfigRepository levelConfigRepository;
 
 		public InitializingState(
 			LevelConfigRepository levelConfigRepository,
 			InitializeGridUseCase initializeGridUseCase,
-			CreateLevelUseCase createLevelUseCase)
+			SetLevelUseCase setLevelUseCase)
 		{
 			this.levelConfigRepository = levelConfigRepository;
 			this.initializeGridUseCase = initializeGridUseCase;
-			this.createLevelUseCase = createLevelUseCase;
+			this.setLevelUseCase = setLevelUseCase;
 		}
 
 		public UniTask Enter()
 		{
+			// ToDo: Move to GamePresenter
 			var levelConfig = levelConfigRepository.Get();
-			var level = createLevelUseCase.Execute(levelConfig);
+			var level = setLevelUseCase.Execute(levelConfig);
 			initializeGridUseCase.Execute(level, levelConfig);
 			return UniTask.CompletedTask;
 		}

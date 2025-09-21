@@ -14,9 +14,9 @@ namespace Game
 		private readonly CellViewsRepository cellViewsRepository;
 
 		public InitializeGridUseCase(
-			GridView gridView, 
-			CellViewFactory cellViewFactory, 
-			SelectCellUseCase selectCellUseCase, 
+			GridView gridView,
+			CellViewFactory cellViewFactory,
+			SelectCellUseCase selectCellUseCase,
 			TryFlagCellUseCase tryFlagCellUseCase,
 			CellViewsRepository cellViewsRepository)
 		{

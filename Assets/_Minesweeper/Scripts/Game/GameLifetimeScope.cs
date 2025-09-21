@@ -40,10 +40,9 @@ namespace Game
             builder.Register<LevelService>(Lifetime.Singleton);
             builder.Register<GameService>(Lifetime.Singleton);
             
-            builder.Register<CreateLevelUseCase>(Lifetime.Singleton);
+            builder.Register<SetLevelUseCase>(Lifetime.Singleton);
             builder.Register<TryFlagCellUseCase>(Lifetime.Singleton);
             builder.Register<SelectCellUseCase>(Lifetime.Singleton);
-            builder.Register<RefreshLevelUseCase>(Lifetime.Singleton);
             
             builder.Register<InitializeGridUseCase>(Lifetime.Singleton);
             builder.Register<RevealAllLevelBombsUseCase>(Lifetime.Singleton);

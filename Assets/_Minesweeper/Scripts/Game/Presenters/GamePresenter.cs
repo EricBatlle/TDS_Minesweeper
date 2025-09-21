@@ -1,19 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using VContainer.Unity;
 
 namespace Game
 {
 	public class GamePresenter : IInitializable
 	{
+		private readonly InitializeGridUseCase initializeGridUseCase;
 		private readonly TryFlagCellUseCase tryFlagCellUseCase;
 		private readonly SelectCellUseCase selectCellUseCase;
+		private readonly SetLevelUseCase setLevelUseCase;
 		private readonly CellViewsRepository cellViewsRepository;
 		
+		private readonly LevelService levelService;
 		private readonly CellService cellService;
 		private readonly GameService gameService;
 		private readonly GameStateMachine gameStateMachine;
 
 		public GamePresenter(
+			SetLevelUseCase setLevelUseCase,
+			LevelService levelService,
+			InitializeGridUseCase initializeGridUseCase,
 			TryFlagCellUseCase tryFlagCellUseCase,
 			GameStateMachine gameStateMachine,
 			GameService gameService,
@@ -21,6 +28,9 @@ namespace Game
 			SelectCellUseCase selectCellUseCase,
 			CellService cellService)
 		{
+			this.setLevelUseCase = setLevelUseCase;
+			this.levelService = levelService;
+			this.initializeGridUseCase = initializeGridUseCase;
 			this.tryFlagCellUseCase = tryFlagCellUseCase;
 			this.gameStateMachine = gameStateMachine;
 			this.gameService = gameService;
@@ -31,12 +41,32 @@ namespace Game
 
 		public void Initialize()
 		{
+			gameStateMachine.GameStateChanged += OnGameStateChanged;
 			selectCellUseCase.CellsOpened += OnCellsOpened;
 			tryFlagCellUseCase.CellFlagged += OnCellFlagged;
 			tryFlagCellUseCase.CellUnflagged += OnCellUnflagged;
 
 			gameService.CreateGame();
-			gameStateMachine.Initialize();
+			setLevelUseCase.Execute();
+		}
+
+		private void OnGameStateChanged(GameState gameState)
+		{
+			switch (gameState)
+			{
+				case GameState.Default:
+					break;
+				case GameState.Initializing:
+					var level = levelService.GetCurrent();
+					initializeGridUseCase.Execute(level, level.Config);
+					break;
+				case GameState.Started:
+					break;
+				case GameState.Lose:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);
+			}
 		}
 
 		private void OnCellUnflagged(Cell cell)

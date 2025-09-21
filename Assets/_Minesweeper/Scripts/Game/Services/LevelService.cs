@@ -5,10 +5,12 @@ namespace Game
 {
 	public class LevelService
 	{
+		private readonly LevelRepository levelRepository;
 		private readonly IRandomProvider randomProvider;
 
-		public LevelService(IRandomProvider randomProvider)
+		public LevelService(LevelRepository levelRepository, IRandomProvider randomProvider)
 		{
+			this.levelRepository = levelRepository;
 			this.randomProvider = randomProvider;
 		}
 
@@ -26,6 +28,11 @@ namespace Game
 					level.AddCell(rowIndex, columnIndex, new Cell(CellState.Unopen, hasBomb, new Vector2Int(rowIndex, columnIndex)));
 				}	
 			}
+		}
+
+		public Level GetCurrent()
+		{
+			return levelRepository.Get();
 		}
 	}
 }

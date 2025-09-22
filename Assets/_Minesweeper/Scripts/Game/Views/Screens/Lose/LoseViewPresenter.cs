@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Leaderboard;
 using VContainer.Unity;
 
 namespace Game

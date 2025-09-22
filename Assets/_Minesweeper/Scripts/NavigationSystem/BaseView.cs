@@ -1,8 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
-using NavigationSystem;
 using UnityEngine;
 
-namespace Game
+namespace NavigationSystem
 {
 	public abstract class BaseView : MonoBehaviour, IView
 	{

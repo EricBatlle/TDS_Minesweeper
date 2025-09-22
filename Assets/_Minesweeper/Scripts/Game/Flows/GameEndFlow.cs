@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Leaderboard;
 using NavigationSystem;
 
 namespace Game

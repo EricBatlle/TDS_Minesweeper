@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using NavigationSystem;
 
-namespace Game
+namespace Leaderboard
 {
 	public class LeaderboardViewData : IViewData
 	{
-		public List<User> UsersToShow { get; }
+		public List<LeaderboardUser> UsersToShow { get; }
 
-		public LeaderboardViewData(List<User> usersToShow)
+		public LeaderboardViewData(List<LeaderboardUser> usersToShow)
 		{
 			UsersToShow = usersToShow;
 		}

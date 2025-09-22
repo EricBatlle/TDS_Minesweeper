@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Leaderboard;
 using NavigationSystem;
 using TriInspector;
 using UnityEngine;
@@ -36,15 +37,15 @@ namespace Game
 		[Button]
 		public void OpenViewLeaderboard()
 		{
-			var users = new List<User>
+			var users = new List<LeaderboardUser>
 			{
-				new User(0, "Eric", 10),
-				new User(1, "Eric1", 10),
-				new User(2, "Eric2", 10),
-				new User(3, "Eric3", 10),
-				new User(4, "Eric4", 10),
-				new User(5, "Eric5", 10),
-				new User(6, "Eric6", 10),
+				new LeaderboardUser(0, "Eric", 10),
+				new LeaderboardUser(1, "Eric1", 10),
+				new LeaderboardUser(2, "Eric2", 10),
+				new LeaderboardUser(3, "Eric3", 10),
+				new LeaderboardUser(4, "Eric4", 10),
+				new LeaderboardUser(5, "Eric5", 10),
+				new LeaderboardUser(6, "Eric6", 10),
 			};
 			var data = new LeaderboardViewData(users);
 			navigationSystem.Open(ViewType.LeaderBoard).WithData(data);

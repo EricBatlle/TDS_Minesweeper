@@ -1,3 +1,4 @@
+using Leaderboard;
 using NavigationSystem;
 using UnityEngine;
 using VContainer;
@@ -27,6 +28,7 @@ namespace Game
             builder.RegisterInstance(editorCheater);
 
             new NavigationSystemInstaller(rootCanvas, viewsContainer).Install(builder);
+            new LeaderboardInstaller().Install(builder);
             new GameStateMachineInstaller().Install(builder);
             
             builder.Register<GamePresenter>(Lifetime.Singleton).AsSelf().As<IInitializable>();
@@ -37,12 +39,10 @@ namespace Game
             builder.Register<LevelConfigRepository>(Lifetime.Singleton);
             builder.Register<LevelRepository>(Lifetime.Singleton);
             builder.Register<GameRepository>(Lifetime.Singleton);
-            builder.Register<UsersRepository>(Lifetime.Singleton);
             
             builder.Register<CellService>(Lifetime.Singleton);
             builder.Register<LevelService>(Lifetime.Singleton);
             builder.Register<GameService>(Lifetime.Singleton);
-            builder.Register<LeaderboardService>(Lifetime.Singleton);
             
             builder.Register<SetLevelUseCase>(Lifetime.Singleton);
             builder.Register<TryFlagCellUseCase>(Lifetime.Singleton);

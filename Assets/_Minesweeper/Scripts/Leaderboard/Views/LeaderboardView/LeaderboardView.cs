@@ -3,7 +3,7 @@ using NavigationSystem;
 using UnityEngine;
 using Utils;
 
-namespace Game
+namespace Leaderboard
 {
     public class LeaderboardView : BaseView, IViewWithData<LeaderboardViewData>
     {
@@ -35,7 +35,7 @@ namespace Game
             }
         }
 
-        private void CreateUserLabel(User user)
+        private void CreateUserLabel(LeaderboardUser user)
         {
             var labelGameObject = Instantiate(userLabelPrefab, labelsParentTransform, false);
             var leaderboardUserLabelView = labelGameObject.GetComponent<LeaderboardUserLabelView>();

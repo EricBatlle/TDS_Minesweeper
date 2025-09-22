@@ -1,6 +1,6 @@
 ﻿using Utils;
 
-namespace Game
+namespace Leaderboard
 {
 	public class LeaderboardViewLifetimeScope : ViewLifetimeScope<LeaderboardView, LeaderboardViewPresenter>
 	{

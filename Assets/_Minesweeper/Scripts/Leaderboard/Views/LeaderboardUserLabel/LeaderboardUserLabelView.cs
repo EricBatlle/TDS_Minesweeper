@@ -2,7 +2,7 @@ using System.Globalization;
 using TMPro;
 using UnityEngine;
 
-namespace Game
+namespace Leaderboard
 {
     public class LeaderboardUserLabelView : MonoBehaviour
     {

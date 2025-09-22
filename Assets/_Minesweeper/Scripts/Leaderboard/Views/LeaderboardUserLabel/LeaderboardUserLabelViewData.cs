@@ -1,4 +1,4 @@
-﻿namespace Game
+﻿namespace Leaderboard
 {
 	public class LeaderboardUserLabelViewData
 	{

@@ -3,11 +3,11 @@ using System.Linq;
 using JetBrains.Annotations;
 using Utils;
 
-namespace Game
+namespace Leaderboard
 {
-	public class UsersRepository : BaseInMemoryRepository<List<User>>
+	public class LeaderboardUsersRepository : BaseInMemoryRepository<List<LeaderboardUser>>
 	{
-		public User Create(string name, float score)
+		public LeaderboardUser Create(string name, float score)
 		{
 			var allUsers = Get();
 			var lastId = 0;
@@ -15,18 +15,18 @@ namespace Game
 			{
 				lastId = allUsers.OrderByDescending(user => user.Id).First().Id;
 			}
-			var newUser = new User(lastId + 1, name, score);
+			var newUser = new LeaderboardUser(lastId + 1, name, score);
 			Update(newUser);
 			return newUser;
 		}
 
 		[CanBeNull]
-		public User Get(User user)
+		public LeaderboardUser Get(LeaderboardUser user)
 		{
 			return Get().FirstOrDefault(u => u.Id == user.Id);
 		}
 		
-		public void Update(User user)
+		public void Update(LeaderboardUser user)
 		{
 			var inMemoryData = Get();
 			inMemoryData.Add(user);

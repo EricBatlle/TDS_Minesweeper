@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 
-namespace Game
+namespace Leaderboard
 {
 	public class LeaderboardViewPresenter : IInitializable
 	{

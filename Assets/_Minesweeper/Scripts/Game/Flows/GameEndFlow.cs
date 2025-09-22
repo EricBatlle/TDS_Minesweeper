@@ -19,10 +19,22 @@ namespace Game
             this.setLevelUseCase = setLevelUseCase;
         }
 
-        public async UniTask ExecuteFlow()
+        public async UniTask ExecuteFlow(GameEndReason gameEndReason)
+        {
+            if (gameEndReason == GameEndReason.Lose)
+            {
+                await GameLostFlow();
+            }
+            else
+            {
+                await GameWinFlow();
+            }
+        }
+
+        private async UniTask GameLostFlow()
         {
             revealAllLevelBombsUseCase.Execute();
-            
+
             await navigationSystem.Open(ViewType.Lose)
                 .WithData(new LoseViewData(10))
                 .AwaitClose();
@@ -32,6 +44,13 @@ namespace Game
                 .AwaitClose();
 
             setLevelUseCase.Execute();
+        }
+
+        private async UniTask GameWinFlow()
+        {
+            await navigationSystem.Open(ViewType.Win)
+                .AwaitClose();
+            setLevelUseCase.NextLevel();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Game
 	public class SelectCellUseCase
 	{
 		public Action<HashSet<Cell>> CellsOpened;
+		public Action LevelFinished;
 		public Action<Cell> BombSelected;
 
 		private readonly LevelRepository levelRepository;
@@ -45,7 +46,13 @@ namespace Game
 				{
 					CellsOpened?.Invoke(openedCells);
 				}
+
+				if (level.CellsWithoutBomb.Count(cell => cellService.CanCellBeSelected(cell)) == 0)
+				{
+					LevelFinished?.Invoke();
+				}
 			}
+			
 		}
 
 		private static void OpenCellsRecursively(Cell selectedCell, Level level, HashSet<Cell> openedCells)

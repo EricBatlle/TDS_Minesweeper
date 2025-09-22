@@ -6,5 +6,6 @@
 		Initializing,
 		Started,
 		Lose,
+		Win,
 	}
 }

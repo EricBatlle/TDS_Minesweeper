@@ -40,6 +40,8 @@ namespace Game
             builder.Register<LevelRepository>(Lifetime.Singleton);
             builder.Register<GameRepository>(Lifetime.Singleton);
             
+            builder.Register<LevelConfigProvider>(Lifetime.Singleton);
+            
             builder.Register<CellService>(Lifetime.Singleton);
             builder.Register<LevelService>(Lifetime.Singleton);
             builder.Register<GameService>(Lifetime.Singleton);

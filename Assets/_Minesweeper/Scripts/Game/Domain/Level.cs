@@ -6,9 +6,9 @@ namespace Game
 	public class Level
 	{
 		public LevelConfig Config { get; }
-
 		public List<Cell> Cells => grid.ToList();
 		public List<Cell> CellsWithBomb => grid.Where(cell => cell.HasBomb).ToList();
+		public List<Cell> CellsWithoutBomb => grid.Where(cell => !cell.HasBomb).ToList();
 		
 		private readonly Grid<Cell> grid;
 

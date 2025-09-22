@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using NavigationSystem;
 using VContainer.Unity;
 
 namespace Game
 {
 	public class GamePresenter : IInitializable
 	{
-		private readonly RevealAllLevelBombsUseCase revealAllLevelBombsUseCase;
 		private readonly InitializeGridUseCase initializeGridUseCase;
 		private readonly TryFlagCellUseCase tryFlagCellUseCase;
 		private readonly SelectCellUseCase selectCellUseCase;
@@ -23,10 +21,9 @@ namespace Game
 		private readonly GameStateMachine gameStateMachine;
 
 		public GamePresenter(
-			GameEndFlow gameEndFlow,
-			RevealAllLevelBombsUseCase revealAllLevelBombsUseCase,
-			SetLevelUseCase setLevelUseCase,
 			LevelService levelService,
+			GameEndFlow gameEndFlow,
+			SetLevelUseCase setLevelUseCase,
 			InitializeGridUseCase initializeGridUseCase,
 			TryFlagCellUseCase tryFlagCellUseCase,
 			GameStateMachine gameStateMachine,
@@ -35,10 +32,9 @@ namespace Game
 			SelectCellUseCase selectCellUseCase,
 			CellService cellService)
 		{
-			this.gameEndFlow = gameEndFlow;
-			this.revealAllLevelBombsUseCase = revealAllLevelBombsUseCase;
-			this.setLevelUseCase = setLevelUseCase;
 			this.levelService = levelService;
+			this.gameEndFlow = gameEndFlow;
+			this.setLevelUseCase = setLevelUseCase;
 			this.initializeGridUseCase = initializeGridUseCase;
 			this.tryFlagCellUseCase = tryFlagCellUseCase;
 			this.gameStateMachine = gameStateMachine;
@@ -72,7 +68,10 @@ namespace Game
 				case GameState.Started:
 					break;
 				case GameState.Lose:
-					await gameEndFlow.ExecuteFlow();
+					await gameEndFlow.ExecuteFlow(GameEndReason.Lose);
+					break;
+				case GameState.Win:
+					await gameEndFlow.ExecuteFlow(GameEndReason.Win);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);

@@ -27,18 +27,20 @@ namespace Game
             initializeGridUseCase.GridInitialized += OnGridInitialized;
             setLevelUseCase.NewLevelSet += OnNewLevelSet;
             selectCellUseCase.BombSelected += OnBombSelected;
+            selectCellUseCase.LevelFinished += OnLevelFinished;
 
             this.states = states.ToDictionary(state => state.Id);
             validTransitions = new Dictionary<GameState, HashSet<GameState>> {
                 { GameState.Default, new() { GameState.Initializing } },
                 { GameState.Initializing, new() { GameState.Started } },
-                { GameState.Started, new() { GameState.Initializing, GameState.Lose } },
+                { GameState.Started, new() { GameState.Initializing, GameState.Lose, GameState.Win } },
                 { GameState.Lose, new() { GameState.Initializing } },
+                { GameState.Win, new() { GameState.Initializing } },
             };
             
             currentState = this.states[GameState.Default];
         }
-        
+
         private async UniTask TryChangeState(GameState newState)
         {
             if (!validTransitions[currentState.Id].Contains(newState)) {
@@ -60,5 +62,6 @@ namespace Game
         private void OnNewLevelSet() => TryChangeState(GameState.Initializing).Forget();
         private void OnGridInitialized() => TryChangeState(GameState.Started).Forget();
         private void OnBombSelected(Cell cell) => TryChangeState(GameState.Lose).Forget();
+        private void OnLevelFinished() => TryChangeState(GameState.Win).Forget();
     }
 }

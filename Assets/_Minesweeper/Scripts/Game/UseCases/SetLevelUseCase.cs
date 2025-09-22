@@ -8,13 +8,13 @@ namespace Game
 
 		private readonly LevelService levelService;
 		private readonly LevelRepository levelRepository;
-		private readonly LevelConfigRepository levelConfigRepository;
+		private readonly LevelConfigProvider levelConfigProvider;
 
-		public SetLevelUseCase(LevelService levelService, LevelRepository levelRepository, LevelConfigRepository levelConfigRepository)
+		public SetLevelUseCase(LevelService levelService, LevelRepository levelRepository, LevelConfigProvider levelConfigProvider)
 		{
 			this.levelService = levelService;
 			this.levelRepository = levelRepository;
-			this.levelConfigRepository = levelConfigRepository;
+			this.levelConfigProvider = levelConfigProvider;
 		}
 
 		public Level Execute(LevelConfig levelConfig)
@@ -28,7 +28,13 @@ namespace Game
 
 		public Level Execute()
 		{
-			var levelConfig = levelConfigRepository.Get();
+			var levelConfig = levelConfigProvider.GetCurrent();
+			return Execute(levelConfig);
+		}
+		
+		public Level NextLevel()
+		{
+			var levelConfig = levelConfigProvider.GetNext();
 			return Execute(levelConfig);
 		}
 	}

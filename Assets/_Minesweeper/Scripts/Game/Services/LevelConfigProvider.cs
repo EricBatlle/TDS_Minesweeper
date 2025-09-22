@@ -9,6 +9,13 @@
 			this.levelConfigRepository = levelConfigRepository;
 		}
 
+		public LevelConfig GetFirst()
+		{
+			var levelConfig = new LevelConfig();
+			levelConfigRepository.Update(levelConfig);
+			return levelConfig;
+		}
+		
 		public LevelConfig GetCurrent()
 		{
 			return levelConfigRepository.Get();

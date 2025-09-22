@@ -37,5 +37,11 @@ namespace Game
 			var levelConfig = levelConfigProvider.GetNext();
 			return Execute(levelConfig);
 		}
+
+		public Level FirstLevel()
+		{
+			var levelConfig = levelConfigProvider.GetFirst();
+			return Execute(levelConfig);
+		}
 	}
 }

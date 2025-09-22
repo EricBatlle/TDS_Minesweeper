@@ -52,7 +52,7 @@ namespace Game
 			tryFlagCellUseCase.CellUnflagged += OnCellUnflagged;
 
 			gameService.CreateGame();
-			setLevelUseCase.Execute();
+			setLevelUseCase.FirstLevel();
 		}
 
 		private async void OnGameStateChanged(GameState gameState)

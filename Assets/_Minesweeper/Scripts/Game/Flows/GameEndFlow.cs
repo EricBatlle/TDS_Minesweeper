@@ -43,13 +43,12 @@ namespace Game
                 .WithData(new LeaderboardViewData(leaderboardService.GetAllLeaderboardEntries()))
                 .AwaitClose();
 
-            setLevelUseCase.Execute();
+            setLevelUseCase.FirstLevel();
         }
 
         private async UniTask GameWinFlow()
         {
-            await navigationSystem.Open(ViewType.Win)
-                .AwaitClose();
+            await navigationSystem.Open(ViewType.Win).AwaitClose();
             setLevelUseCase.NextLevel();
         }
     }

@@ -3,5 +3,6 @@
 	public enum ViewType
 	{
 		Lose,
+		LeaderBoard,
 	}
 }

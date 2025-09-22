@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace NavigationSystem
@@ -15,26 +16,29 @@ namespace NavigationSystem
             this.rootCanvas = rootCanvas;
         }
         
-        public void Open(ViewType viewType)
+        public ViewHandle Open(ViewType viewType)
         {
-            viewsFactory.Create(viewsContainer.GetViewPrefab(viewType), rootCanvas);
-        }
-        
-        public void Open<TViewData>(ViewType viewType, TViewData viewData) where TViewData : IViewData
-        {
-            var viewGameObject = viewsFactory.Create(viewsContainer.GetViewPrefab(viewType), rootCanvas);
-            var viewWithData = viewGameObject.GetComponent<IViewWithData<TViewData>>();
-            if (viewWithData == null)
+            var go = viewsFactory.Create(viewsContainer.GetViewPrefab(viewType), rootCanvas);
+            var view = go.GetComponent<IView>();
+            if (view == null)
             {
-                Debug.LogError($"Trying to inject ViewData of type {typeof(TViewData)} in View {viewGameObject.name} but this view do not accept ViewData");
-                return;
+                Debug.LogError($"Prefab {go.name} does not implement IView.");
             }
-            viewWithData.SetIntent(viewData);
+            return new ViewHandle(go, view);
         }
 
-        public void Close(GameObject gameObject)
+        public async UniTask Close(IView view)
         {
-            Object.DestroyImmediate(gameObject);
+            view.Close();
+            await view.AwaitCloseComplete;
+            if (view is Component component && component != null)
+            {
+                Object.Destroy(component.gameObject);
+            }
+            else
+            {
+                Debug.LogError($"IView is not a Component, can't destroy its GameObject automatically");
+            }
         }
     }
 }

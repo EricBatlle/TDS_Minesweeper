@@ -2,6 +2,7 @@
     "name": "NavigationSystem",
     "rootNamespace": "NavigationSystem",
     "references": [
+        "UniTask",
         "VContainer"
     ],
     "includePlatforms": [],

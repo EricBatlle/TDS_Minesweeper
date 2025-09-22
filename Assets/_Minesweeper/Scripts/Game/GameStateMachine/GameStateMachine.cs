@@ -38,11 +38,6 @@ namespace Game
             
             currentState = this.states[GameState.Default];
         }
-
-        public void Initialize()
-        {
-            TryChangeState(GameState.Initializing).Forget();
-        }
         
         private async UniTask TryChangeState(GameState newState)
         {
@@ -62,8 +57,8 @@ namespace Game
             GameStateChanged?.Invoke(newState);
         }
         
-        private void OnGridInitialized() => TryChangeState(GameState.Started).Forget();
         private void OnNewLevelSet() => TryChangeState(GameState.Initializing).Forget();
+        private void OnGridInitialized() => TryChangeState(GameState.Started).Forget();
         private void OnBombSelected(Cell cell) => TryChangeState(GameState.Lose).Forget();
     }
 }

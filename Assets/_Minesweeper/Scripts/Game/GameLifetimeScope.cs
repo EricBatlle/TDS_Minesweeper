@@ -31,14 +31,18 @@ namespace Game
             
             builder.Register<GamePresenter>(Lifetime.Singleton).AsSelf().As<IInitializable>();
 
+            builder.Register<GameEndFlow>(Lifetime.Singleton);
+
             builder.Register<CellViewsRepository>(Lifetime.Singleton);
             builder.Register<LevelConfigRepository>(Lifetime.Singleton);
             builder.Register<LevelRepository>(Lifetime.Singleton);
             builder.Register<GameRepository>(Lifetime.Singleton);
+            builder.Register<UsersRepository>(Lifetime.Singleton);
             
             builder.Register<CellService>(Lifetime.Singleton);
             builder.Register<LevelService>(Lifetime.Singleton);
             builder.Register<GameService>(Lifetime.Singleton);
+            builder.Register<LeaderboardService>(Lifetime.Singleton);
             
             builder.Register<SetLevelUseCase>(Lifetime.Singleton);
             builder.Register<TryFlagCellUseCase>(Lifetime.Singleton);

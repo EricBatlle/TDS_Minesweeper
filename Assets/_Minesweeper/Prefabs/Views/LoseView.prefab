@@ -60,7 +60,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7612937341129459204}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9719.999}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -89,6 +89,10 @@ PrefabInstance:
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_text
       value: Score
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
+      propertyPath: m_fontSize
+      value: 44.75
       objectReference: {fileID: 0}
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_fontColor.b
@@ -156,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6987648164375381034, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9719.999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6987648164375381034, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_LocalRotation.w
@@ -265,7 +269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 204455514229156443, guid: 86da82445295d2941b093ff6c1231239, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9719.999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 204455514229156443, guid: 86da82445295d2941b093ff6c1231239, type: 3}
       propertyPath: m_LocalRotation.w

@@ -7,9 +7,9 @@ using Utils;
 
 namespace Game
 {
-    public class LoseView : MonoBehaviour, IViewWithData<LoseViewData>
+    public class LoseView : BaseView, IViewWithData<LoseViewData>
     {
-        public event Action UserNameConfirmed;
+        public event Action<UserLeaderboardSubmission> UserLeaderboardSubmissionConfirmed;
 
         [SerializeField]
         private TextMeshProUGUI scoreText;
@@ -17,6 +17,8 @@ namespace Game
         private TMP_InputField userNameInputField;
         [SerializeField]
         private CustomButton confirmButton;
+        
+        private float userScore;
 
         private void Awake()
         {
@@ -26,22 +28,28 @@ namespace Game
 
         public void UpdateView(LoseViewData viewData)
         {
+            userScore = viewData.Score;
             scoreText.text = viewData.Score.ToString(CultureInfo.InvariantCulture);
         }
 
-        public void SetIntent(LoseViewData viewData)
+        public void SetData(LoseViewData viewData)
         {
             UpdateView(viewData);
         }
-        
+
         private void OnConfirmUserName(string arg0)
         {
-            UserNameConfirmed?.Invoke();
+            UserLeaderboardSubmissionConfirmed?.Invoke(GetUserLeaderboardSubmission());
         }
 
         private void OnConfirmUserName()
         {
-            UserNameConfirmed?.Invoke();
+            UserLeaderboardSubmissionConfirmed?.Invoke(GetUserLeaderboardSubmission());
+        }
+
+        private UserLeaderboardSubmission GetUserLeaderboardSubmission()
+        {
+            return new UserLeaderboardSubmission(userNameInputField.text, userScore);
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using NavigationSystem;
 using VContainer.Unity;
 
 namespace Game
 {
 	public class GamePresenter : IInitializable
 	{
+		private readonly RevealAllLevelBombsUseCase revealAllLevelBombsUseCase;
 		private readonly InitializeGridUseCase initializeGridUseCase;
 		private readonly TryFlagCellUseCase tryFlagCellUseCase;
 		private readonly SelectCellUseCase selectCellUseCase;
@@ -15,9 +17,14 @@ namespace Game
 		private readonly LevelService levelService;
 		private readonly CellService cellService;
 		private readonly GameService gameService;
+
+		private readonly GameEndFlow gameEndFlow;
+
 		private readonly GameStateMachine gameStateMachine;
 
 		public GamePresenter(
+			GameEndFlow gameEndFlow,
+			RevealAllLevelBombsUseCase revealAllLevelBombsUseCase,
 			SetLevelUseCase setLevelUseCase,
 			LevelService levelService,
 			InitializeGridUseCase initializeGridUseCase,
@@ -28,6 +35,8 @@ namespace Game
 			SelectCellUseCase selectCellUseCase,
 			CellService cellService)
 		{
+			this.gameEndFlow = gameEndFlow;
+			this.revealAllLevelBombsUseCase = revealAllLevelBombsUseCase;
 			this.setLevelUseCase = setLevelUseCase;
 			this.levelService = levelService;
 			this.initializeGridUseCase = initializeGridUseCase;
@@ -50,7 +59,7 @@ namespace Game
 			setLevelUseCase.Execute();
 		}
 
-		private void OnGameStateChanged(GameState gameState)
+		private async void OnGameStateChanged(GameState gameState)
 		{
 			switch (gameState)
 			{
@@ -63,6 +72,7 @@ namespace Game
 				case GameState.Started:
 					break;
 				case GameState.Lose:
+					await gameEndFlow.ExecuteFlow();
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);

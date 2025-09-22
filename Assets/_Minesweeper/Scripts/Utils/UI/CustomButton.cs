@@ -17,6 +17,11 @@ namespace Utils
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!IsActive() || !IsInteractable())
+            {
+                return;
+            }
+
             DoStateTransition(SelectionState.Pressed, true);
 
             switch (eventData.button)
@@ -36,6 +41,12 @@ namespace Utils
             if (resetCoroutine != null)
             {
                 StopCoroutine(resetCoroutine);
+            }
+
+            // This is needed in case the click on this button destroyed the button itself
+            if (!this)
+            {
+                return;
             }
 
             resetCoroutine = StartCoroutine(OnFinishSubmit());

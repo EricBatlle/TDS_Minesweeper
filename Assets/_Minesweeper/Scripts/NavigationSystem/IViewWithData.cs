@@ -2,6 +2,6 @@
 {
 	public interface IViewWithData<TViewData> : IView where TViewData : IViewData
 	{
-		public void SetIntent(TViewData viewData);
+		public void SetData(TViewData viewData);
 	}
 }

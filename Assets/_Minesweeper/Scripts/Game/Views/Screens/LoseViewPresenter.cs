@@ -1,4 +1,5 @@
-﻿using VContainer.Unity;
+﻿using Cysharp.Threading.Tasks;
+using VContainer.Unity;
 
 namespace Game
 {
@@ -6,21 +7,24 @@ namespace Game
 	{
 		private readonly LoseView view;
 		private readonly NavigationSystem.NavigationSystem navigationSystem;
+		private readonly LeaderboardService leaderboardService;
 
-		public LoseViewPresenter(LoseView view, NavigationSystem.NavigationSystem navigationSystem)
+		public LoseViewPresenter(LoseView view, NavigationSystem.NavigationSystem navigationSystem, LeaderboardService leaderboardService)
 		{
 			this.view = view;
 			this.navigationSystem = navigationSystem;
+			this.leaderboardService = leaderboardService;
 		}
 
 		public void Initialize()
 		{
-			view.UserNameConfirmed += OnUserNameConfirmed;
+			view.UserLeaderboardSubmissionConfirmed += OnUserLeaderboardSubmissionConfirmed;
 		}
 
-		private void OnUserNameConfirmed()
+		private void OnUserLeaderboardSubmissionConfirmed(UserLeaderboardSubmission userLeaderboardSubmission)
 		{
-			navigationSystem.Close(view.gameObject);
+			leaderboardService.SaveLeaderboardEntry(userLeaderboardSubmission);
+			navigationSystem.Close(view).Forget();
 		}
 	}
 }

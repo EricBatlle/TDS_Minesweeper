@@ -59,6 +59,13 @@ namespace Game
 	        button.onRightClick.AddListener(OnCellRightClicked);
         }
 
+        private void OnDestroy()
+        {
+	        blinkingCts?.Cancel();
+	        blinkingCts?.Dispose();
+	        blinkingCts = null;
+        }
+
         public void SetUp(Cell newCell)
         {
 	        cell = newCell;
@@ -72,6 +79,56 @@ namespace Game
 	        {
 				SetCellBombsAroundCounter(viewData.BombsAroundCount);
 	        }
+        }
+
+        public void RevealBomb(bool isSelectedBomb)
+        {
+	        bombGameObject.SetActive(cell.HasBomb);
+	        if (isSelectedBomb)
+	        {
+		        SetCellBackgroundColor(selectedBombBackgroundColor);
+	        }
+	        else
+	        {
+		        SetCellBackground(CellState.Open);
+	        }
+        }
+
+        private void SetCellBombsAroundCounter(int bombsAroundCount)
+        {
+	        if (bombsAroundCount == 0)
+	        {
+		        text.text = string.Empty;
+		        return;
+	        }
+
+	        text.text = bombsAroundCount.ToString();
+        }
+
+        private void SetCellBackground(CellState cellState)
+        {
+	        SetCellBackgroundColor(GetBackgroundColorByCellState(cellState));
+	        flagGameObject.SetActive(cellState == CellState.Flagged);
+        }
+
+        private Color GetBackgroundColorByCellState(CellState cellState)
+        {
+	        return cellColorAndStateTuples.First(tuple => tuple.state == cellState).color;
+        }
+
+        private void SetCellBackgroundColor(Color color)
+        {
+	        backgroundImage.color = color;
+        }
+
+        private void OnCellLeftClicked()
+        {
+	        CellLeftClicked?.Invoke(cell);
+        }
+        
+        private void OnCellRightClicked()
+        {
+	        CellRightClicked?.Invoke(cell);
         }
 
         [Button]
@@ -106,54 +163,9 @@ namespace Game
 	        blinkingCts?.Dispose();
 	        blinkingCts = null;
 
-	        SetCellBackgroundColor(baseBackgroundColor);
+	        SetCellBackgroundColor(GetBackgroundColorByCellState(cell.State));
         }
 
-        public void RevealBomb(bool isSelectedBomb)
-        {
-	        bombGameObject.SetActive(cell.HasBomb);
-	        if (isSelectedBomb)
-	        {
-		        SetCellBackgroundColor(selectedBombBackgroundColor);
-	        }
-	        else
-	        {
-		        SetCellBackground(CellState.Open);
-	        }
-        }
-
-        private void SetCellBombsAroundCounter(int bombsAroundCount)
-        {
-	        if (bombsAroundCount == 0)
-	        {
-		        text.text = string.Empty;
-		        return;
-	        }
-
-	        text.text = bombsAroundCount.ToString();
-        }
-
-        private void SetCellBackground(CellState cellState)
-        {
-	        SetCellBackgroundColor(cellColorAndStateTuples.First(tuple => tuple.state == cellState).color);
-	        flagGameObject.SetActive(cellState == CellState.Flagged);
-        }
-
-        private void SetCellBackgroundColor(Color color)
-        {
-	        backgroundImage.color = color;
-        }
-
-        private void OnCellLeftClicked()
-        {
-	        CellLeftClicked?.Invoke(cell);
-        }
-        
-        private void OnCellRightClicked()
-        {
-	        CellRightClicked?.Invoke(cell);
-        }
-        
         private async UniTaskVoid BlinkLoop(CancellationToken ct)
         {
 	        var halfPeriodSeconds = Mathf.Max(0.01f, blinkingFrequencyInSeconds / 2f);
@@ -165,7 +177,7 @@ namespace Game
 
 	        while (!ct.IsCancellationRequested)
 	        {
-		        SetCellBackgroundColor(showFaded ? faded : baseBackgroundColor);
+		        SetCellBackgroundColor(showFaded ? faded : GetBackgroundColorByCellState(cell.State));
 		        showFaded = !showFaded;
 
 		        await UniTask.Delay(TimeSpan.FromSeconds(halfPeriodSeconds), cancellationToken: ct);

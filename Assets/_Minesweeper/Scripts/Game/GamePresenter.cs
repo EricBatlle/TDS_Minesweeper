@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TimerModule;
-using UnityEngine;
 using VContainer.Unity;
 
 namespace Game
@@ -62,35 +61,10 @@ namespace Game
 			challengeCellService.CellChallenged += OnCellChallenged;
 			challengeCellService.ChallengeCellSucceed += OnCellChallengedSucceed;
 			challengeCellService.ChallengeCellFailed += OnChallengeCellFailed;
-			challengeCellService.CompleteChallengePaused += OnCompleteChallengePaused;
+			challengeCellService.ChallengePaused += OnChallengePaused;
 
 			gameService.CreateGame();
 			setLevelUseCase.FirstLevel();
-		}
-
-		private void OnCompleteChallengePaused()
-		{
-			var challengedCell = levelService.GetCurrent().ChallengedCell;
-			if (challengedCell == null)
-			{
-				return;
-			}
-
-			var cellView = cellViewsRepository.Get(challengedCell);
-			cellView?.StopBlinking();
-		}
-
-		private void OnChallengeCellFailed(Cell cell)
-		{
-			var cellView = cellViewsRepository.Get(cell);
-			cellView?.StopBlinking();
-		}
-
-		private void OnCellChallengedSucceed(Cell cell)
-		{
-			var cellView = cellViewsRepository.Get(cell);
-			cellView?.StopBlinking();
-			challengeCellService.StartChallengeWaiting();
 		}
 
 		// ToDo: Is this state for Game, or for Level?
@@ -117,18 +91,17 @@ namespace Game
 					throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);
 			}
 		}
-		
+
 		private void OnTimerStateChanged(Timer timer)
 		{
 			if (timer.Id == TimerIds.CompleteChallengeTimerId && timer.State == TimerState.Stopped)
 			{
 				challengeCellService.ForceChallengeCellFailed();
-				
 			}
+
 			if (timer.Id == TimerIds.ChallengeCellTimerId && timer.State == TimerState.Stopped)
 			{
 				challengeCellService.ChallengeCell();
-				Debug.LogWarning("ChallengeTriggered");
 			}
 		}
 
@@ -140,10 +113,7 @@ namespace Game
 
 		private void OnCellFlagged(Cell cell)
 		{
-			if (challengeCellService.IsCellChallenged(cell))
-			{
-				challengeCellService.CheckChallenge(cell);
-			}
+			challengeCellService.CheckChallenge(cell);
 			UpdateCellView(cell);
 		}
 
@@ -151,10 +121,7 @@ namespace Game
 		{
 			foreach (var cell in cells)
 			{
-				if (challengeCellService.IsCellChallenged(cell))
-				{
-					challengeCellService.CheckChallenge(cell);
-				}
+				challengeCellService.CheckChallenge(cell);
 				UpdateCellView(cell);
 			}
 		}
@@ -169,11 +136,40 @@ namespace Game
 				BombsAroundCount = cellService.GetNeighborsWithBombCount(cell)
 			});
 		}
+		
+		private void OnChallengePaused()
+		{
+			StopBlinkingChallengedCell();
+		}
 
 		private void OnCellChallenged(Cell cell)
 		{
 			var cellView = cellViewsRepository.Get(cell);
 			cellView?.StartBlinking();
+		}
+
+		private void StopBlinkingChallengedCell()
+		{
+			var challengedCell = levelService.GetCurrent().ChallengedCell;
+			if (challengedCell == null)
+			{
+				return;
+			}
+			var cellView = cellViewsRepository.Get(challengedCell);
+			cellView?.StopBlinking();
+		}
+
+		private void OnChallengeCellFailed(Cell cell)
+		{
+			var cellView = cellViewsRepository.Get(cell);
+			cellView?.StopBlinking();
+		}
+
+		private void OnCellChallengedSucceed(Cell cell)
+		{
+			var cellView = cellViewsRepository.Get(cell);
+			cellView?.StopBlinking();
+			challengeCellService.StartChallengeWaiting();
 		}
 	}
 }

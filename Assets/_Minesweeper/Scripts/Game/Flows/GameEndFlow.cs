@@ -23,6 +23,7 @@ namespace Game
 
         public async UniTask ExecuteFlow(GameEndReason gameEndReason)
         {
+            revealAllLevelBombsUseCase.Execute();
             if (gameEndReason == GameEndReason.Lose)
             {
                 await GameLostFlow();
@@ -35,8 +36,6 @@ namespace Game
 
         private async UniTask GameLostFlow()
         {
-            revealAllLevelBombsUseCase.Execute();
-
             await navigationSystem.Open(ViewType.Lose)
                 .WithData(new LoseViewData(scoreService.GetScore()))
                 .AwaitClose();

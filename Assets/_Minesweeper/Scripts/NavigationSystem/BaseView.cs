@@ -11,7 +11,7 @@ namespace NavigationSystem
 
 		public virtual void Close()
 		{
-			closeCompleteTcs.TrySetResult();
+			closeCompleteTcs?.TrySetResult();
 		}
 
 		protected virtual void OnDestroy()

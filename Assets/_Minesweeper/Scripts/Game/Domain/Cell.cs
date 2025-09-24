@@ -30,7 +30,7 @@ namespace Game
         
         public void StopChallenge()
         {
-            IsChallenged = true;
+            IsChallenged = false;
         }
     }
 }

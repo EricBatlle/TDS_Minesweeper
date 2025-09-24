@@ -15,4 +15,4 @@ MonoBehaviour:
   minesCount: 1
   rowsCount: 3
   challengeCellFrequencyInSeconds: 4
-  timeToCompleteChallengeInSeconds: 78
+  timeToCompleteChallengeInSeconds: 5

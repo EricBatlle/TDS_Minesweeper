@@ -9,7 +9,7 @@ namespace Game
 		public event Action<Cell> CellChallenged;
 		public event Action<Cell> ChallengeCellFailed;
 		public event Action<Cell> ChallengeCellSucceed;
-		public event Action CompleteChallengePaused;
+		public event Action ChallengePaused;
 
 		private readonly GameService gameService;
 		private readonly LevelService levelService;
@@ -26,13 +26,13 @@ namespace Game
 			this.timerRepository = timerRepository;
 		}
 
-		public bool IsCellChallenged(Cell cell)
-		{
-			return cell.IsChallenged;
-		}
-
 		public void CheckChallenge(Cell cell)
 		{
+			if (!IsCellChallenged(cell))
+			{
+				return;
+			}
+
 			cell.StopChallenge();
 			if (cell.HasBomb && cell.State == CellState.Flagged || (!cell.HasBomb && cell.State == CellState.Open))
 			{
@@ -73,6 +73,12 @@ namespace Game
 		{
 			PauseChallengeCellTimer();
 			PauseCompleteChallengeTimer();
+			ChallengePaused?.Invoke();
+		}
+
+		private bool IsCellChallenged(Cell cell)
+		{
+			return cell.IsChallenged;
 		}
 
 		private void CreateChallengeTimers()
@@ -89,7 +95,6 @@ namespace Game
 		{
 			var completeChallengeTimer = timerRepository.Get(TimerIds.CompleteChallengeTimerId);
 			timerService.PauseTimer(completeChallengeTimer);
-			CompleteChallengePaused?.Invoke();
 		}
 
 		private void StartCompleteChallengeTimer()

@@ -25,12 +25,6 @@ namespace Game
 			NewLevelSet?.Invoke();
 			return level;
 		}
-
-		public Level Execute()
-		{
-			var levelConfig = levelConfigProvider.GetCurrent();
-			return Execute(levelConfig);
-		}
 		
 		public Level NextLevel()
 		{

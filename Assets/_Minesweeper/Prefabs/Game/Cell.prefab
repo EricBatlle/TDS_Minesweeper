@@ -67,6 +67,8 @@ MonoBehaviour:
   text: {fileID: 2170657205185232503}
   flagGameObject: {fileID: 8966476597817682941}
   bombGameObject: {fileID: 8097821319417733580}
+  blinkingFrequencyInSeconds: 1
+  blinkMinAlpha: 0.4
   cellColorAndStateTuples:
   - state: 0
     color: {r: 1, g: 1, b: 1, a: 1}

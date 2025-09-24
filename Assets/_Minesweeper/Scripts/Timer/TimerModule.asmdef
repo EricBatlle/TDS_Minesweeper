@@ -1,0 +1,18 @@
+{
+    "name": "TimerModule",
+    "rootNamespace": "TimerModule",
+    "references": [
+        "GUID:9a88817da2cdeb94388ab1c4165583ac",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:fe98e7f60c31e7d4ba885a4d4a77b51a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

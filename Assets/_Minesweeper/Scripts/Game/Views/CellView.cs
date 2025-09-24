@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using TriInspector;
 using UnityEngine;
@@ -32,6 +34,12 @@ namespace Game
         [SerializeField]
         private GameObject bombGameObject;
 
+        [Header("Blinking")]
+        [SerializeField] 
+        private float blinkingFrequencyInSeconds = 1;
+        [SerializeField, Range(0f, 1f)] 
+        private float blinkMinAlpha = 0.4f;
+        [Space]
         [SerializeField]
         private List<CellColorAndStateTuple> cellColorAndStateTuples;
         [SerializeField]
@@ -40,6 +48,10 @@ namespace Game
         [SerializeField]
         [ReadOnly]
         private Cell cell;
+        
+        private CancellationTokenSource blinkingCts;
+        private Color baseBackgroundColor;
+        private bool isBlinking;
 
         private void Awake()
         {
@@ -60,6 +72,41 @@ namespace Game
 	        {
 				SetCellBombsAroundCounter(viewData.BombsAroundCount);
 	        }
+        }
+
+        [Button]
+        public void StartBlinking()
+        {
+	        if (isBlinking)
+	        {
+		        return;
+	        }
+
+	        isBlinking = true;
+	        baseBackgroundColor = backgroundImage.color;
+
+	        blinkingCts?.Cancel();
+	        blinkingCts?.Dispose();
+	        blinkingCts = new CancellationTokenSource();
+
+	        BlinkLoop(blinkingCts.Token).Forget();
+        }
+        
+        [Button]
+        public void StopBlinking()
+        {
+	        if (!isBlinking)
+	        {
+		        return;
+	        }
+
+	        isBlinking = false;
+
+	        blinkingCts?.Cancel();
+	        blinkingCts?.Dispose();
+	        blinkingCts = null;
+
+	        SetCellBackgroundColor(baseBackgroundColor);
         }
 
         public void RevealBomb(bool isSelectedBomb)
@@ -105,6 +152,26 @@ namespace Game
         private void OnCellRightClicked()
         {
 	        CellRightClicked?.Invoke(cell);
+        }
+        
+        private async UniTaskVoid BlinkLoop(CancellationToken ct)
+        {
+	        var halfPeriodSeconds = Mathf.Max(0.01f, blinkingFrequencyInSeconds / 2f);
+
+	        var faded = baseBackgroundColor;
+	        faded.a = baseBackgroundColor.a * Mathf.Clamp01(blinkMinAlpha);
+
+	        var showFaded = false;
+
+	        while (!ct.IsCancellationRequested)
+	        {
+		        SetCellBackgroundColor(showFaded ? faded : baseBackgroundColor);
+		        showFaded = !showFaded;
+
+		        await UniTask.Delay(TimeSpan.FromSeconds(halfPeriodSeconds), cancellationToken: ct);
+	        }
+
+	        SetCellBackgroundColor(baseBackgroundColor);
         }
 	}
 }

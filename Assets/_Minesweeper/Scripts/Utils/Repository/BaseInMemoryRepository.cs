@@ -3,23 +3,24 @@
 	// ToDo: Create base class for collections to avoid the ugliness like the one in UsersRepository
 	public abstract class BaseInMemoryRepository<T> : IRepository<T> where T : new()
 	{
-		private T inMemoryData;
+		protected T InMemoryData;
 		
+		// ToDo: This should return null if non existant
 		public virtual T Get()
 		{
-			return inMemoryData ?? Create();
+			return InMemoryData ?? Create();
 		}
 
 		public virtual T Create()
 		{
-			inMemoryData = new T();
-			return inMemoryData;
+			InMemoryData = new T();
+			return InMemoryData;
 		}
 
 		public virtual T Update(T data)
 		{
-			inMemoryData = data;
-			return inMemoryData;
+			InMemoryData = data;
+			return InMemoryData;
 		}
 	}
 }

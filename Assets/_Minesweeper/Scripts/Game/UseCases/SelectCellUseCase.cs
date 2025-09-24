@@ -7,7 +7,7 @@ namespace Game
 	public class SelectCellUseCase
 	{
 		public Action<HashSet<Cell>> CellsOpened;
-		public Action LevelFinished;
+		public Action LevelCompleted;
 		public Action<Cell> BombSelected;
 
 		private readonly LevelRepository levelRepository;
@@ -49,7 +49,7 @@ namespace Game
 
 				if (level.CellsWithoutBomb.Count(cell => cellService.CanCellBeSelected(cell)) == 0)
 				{
-					LevelFinished?.Invoke();
+					LevelCompleted?.Invoke();
 				}
 			}
 			

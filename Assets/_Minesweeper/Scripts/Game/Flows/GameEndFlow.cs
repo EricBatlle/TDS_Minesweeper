@@ -10,13 +10,15 @@ namespace Game
         private readonly NavigationSystem.NavigationSystem navigationSystem;
         private readonly LeaderboardService leaderboardService;
         private readonly SetLevelUseCase setLevelUseCase;
+        private readonly ScoreService scoreService;
 
-        public GameEndFlow(RevealAllLevelBombsUseCase revealAllLevelBombsUseCase, NavigationSystem.NavigationSystem navigationSystem, LeaderboardService leaderboardService, SetLevelUseCase setLevelUseCase)
+        public GameEndFlow(RevealAllLevelBombsUseCase revealAllLevelBombsUseCase, NavigationSystem.NavigationSystem navigationSystem, LeaderboardService leaderboardService, SetLevelUseCase setLevelUseCase, ScoreService scoreService)
         {
             this.revealAllLevelBombsUseCase = revealAllLevelBombsUseCase;
             this.navigationSystem = navigationSystem;
             this.leaderboardService = leaderboardService;
             this.setLevelUseCase = setLevelUseCase;
+            this.scoreService = scoreService;
         }
 
         public async UniTask ExecuteFlow(GameEndReason gameEndReason)
@@ -36,7 +38,7 @@ namespace Game
             revealAllLevelBombsUseCase.Execute();
 
             await navigationSystem.Open(ViewType.Lose)
-                .WithData(new LoseViewData(10))
+                .WithData(new LoseViewData(scoreService.GetScore()))
                 .AwaitClose();
             
             await navigationSystem.Open(ViewType.LeaderBoard)

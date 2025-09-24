@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Game
 {
@@ -9,6 +10,9 @@ namespace Game
 		public List<Cell> Cells => grid.ToList();
 		public List<Cell> CellsWithBomb => grid.Where(cell => cell.HasBomb).ToList();
 		public List<Cell> CellsWithoutBomb => grid.Where(cell => !cell.HasBomb).ToList();
+		public List<Cell> CellsUnopen => grid.Where(cell => cell.State == CellState.Unopen).ToList();
+		[CanBeNull]
+		public Cell ChallengedCell => grid.FirstOrDefault(cell => cell.IsChallenged);
 		
 		private readonly Grid<Cell> grid;
 

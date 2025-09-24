@@ -3,15 +3,19 @@
 	public class LevelConfigProvider
 	{
 		private readonly LevelConfigRepository levelConfigRepository;
+		private readonly LevelConfigData initialLevelConfig;
+		private readonly LevelDifficultyAdjusterService levelDifficultyAdjusterService;
 
-		public LevelConfigProvider(LevelConfigRepository levelConfigRepository)
+		public LevelConfigProvider(LevelConfigRepository levelConfigRepository, LevelConfigData initialLevelConfig, LevelDifficultyAdjusterService levelDifficultyAdjusterService)
 		{
 			this.levelConfigRepository = levelConfigRepository;
+			this.initialLevelConfig = initialLevelConfig;
+			this.levelDifficultyAdjusterService = levelDifficultyAdjusterService;
 		}
 
 		public LevelConfig GetFirst()
 		{
-			var levelConfig = new LevelConfig();
+			var levelConfig = new LevelConfig(initialLevelConfig);
 			levelConfigRepository.Update(levelConfig);
 			return levelConfig;
 		}
@@ -24,7 +28,7 @@
 		public LevelConfig GetNext()
 		{
 			var currentConfig = levelConfigRepository.Get();
-			var newConfig = new LevelConfig(currentConfig.RowsCount + 2, currentConfig.MinesCount + 2);
+			var newConfig = levelDifficultyAdjusterService.IncreaseDifficulty(currentConfig);
 			levelConfigRepository.Update(newConfig);
 			return newConfig;
 		}

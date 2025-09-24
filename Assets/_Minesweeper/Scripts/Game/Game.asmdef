@@ -9,7 +9,8 @@
         "Utils",
         "Utils.VContainer",
         "NavigationSystem",
-        "Leaderboard"
+        "Leaderboard",
+        "TimerModule"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

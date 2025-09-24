@@ -24,7 +24,7 @@ namespace Game
 		public void RefreshLevel()
 		{
 			var levelConfig = new LevelConfig(levelConfigData);
-			levelConfigRepository.Update(levelConfig);
+			// levelConfigRepository.Update(levelConfig);
 			setLevelUseCase.Execute(levelConfig);
 		}
 

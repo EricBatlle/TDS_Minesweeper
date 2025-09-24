@@ -35,7 +35,7 @@ namespace Game
 		}
 		
 		[Button]
-		public void OpenViewLeaderboard()
+		public void OpenViewLeaderboardWithPlaceholders()
 		{
 			var users = new List<LeaderboardUser>
 			{

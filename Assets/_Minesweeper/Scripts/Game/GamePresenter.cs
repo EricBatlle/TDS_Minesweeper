@@ -96,7 +96,7 @@ namespace Game
 		{
 			if (timer.Id == TimerIds.CompleteChallengeTimerId && timer.State == TimerState.Stopped)
 			{
-				challengeCellService.ForceChallengeCellFailed();
+				challengeCellService.FailChallenge();
 			}
 
 			if (timer.Id == TimerIds.ChallengeCellTimerId && timer.State == TimerState.Stopped)

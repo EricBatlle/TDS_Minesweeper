@@ -44,7 +44,7 @@ namespace Game
 			ChallengeCellFailed?.Invoke(cell);
 		}
 
-		public void ForceChallengeCellFailed()
+		public void FailChallenge()
 		{
 			var cell = levelService.GetCurrent().ChallengedCell;
 			gameService.SetGameFinalSelectedCell(cell);

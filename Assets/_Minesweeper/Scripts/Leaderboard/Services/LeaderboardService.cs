@@ -5,9 +5,9 @@ namespace Leaderboard
 {
 	public class LeaderboardService
 	{
-		private readonly LeaderboardUsersRepository leaderboardUsersRepository;
+		private readonly ILeaderboardUsersRepository leaderboardUsersRepository;
 
-		public LeaderboardService(LeaderboardUsersRepository leaderboardUsersRepository)
+		public LeaderboardService(ILeaderboardUsersRepository leaderboardUsersRepository)
 		{
 			this.leaderboardUsersRepository = leaderboardUsersRepository;
 		}

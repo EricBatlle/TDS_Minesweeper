@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+using Minesweeper;
 using Utils;
 
 namespace Leaderboard
 {
-	public class LeaderboardUsersRepository : BaseInMemoryRepository<List<LeaderboardUser>>
+	public class PlayerPrefsLeaderboardUsersRepository : BasePlayerPrefsRepository<List<LeaderboardUser>>, ILeaderboardUsersRepository
 	{
+		protected override string PlayerPrefsKey => "LeaderboardUsers";
+		
+		protected override string Serialize(List<LeaderboardUser> data) => JsonUtilityHelper.ToJson(data);
+		protected override List<LeaderboardUser> Deserialize(string json) => JsonUtilityHelper.FromJson<LeaderboardUser>(json);
+
 		public LeaderboardUser Create(string name, float score)
 		{
 			var allUsers = Get();
@@ -20,12 +25,11 @@ namespace Leaderboard
 			return newUser;
 		}
 
-		[CanBeNull]
 		public LeaderboardUser Get(LeaderboardUser user)
 		{
 			return Get().FirstOrDefault(u => u.Id == user.Id);
 		}
-		
+
 		public void Update(LeaderboardUser user)
 		{
 			var inMemoryData = Get();

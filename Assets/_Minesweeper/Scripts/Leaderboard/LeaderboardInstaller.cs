@@ -7,7 +7,7 @@ namespace Leaderboard
 	{
 		public void Install(IContainerBuilder builder)
 		{
-			builder.Register<LeaderboardUsersRepository>(Lifetime.Singleton);
+			builder.Register<PlayerPrefsLeaderboardUsersRepository>(Lifetime.Singleton).As<ILeaderboardUsersRepository>();
 			builder.Register<LeaderboardService>(Lifetime.Singleton);
 		}
 	}

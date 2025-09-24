@@ -1,26 +1,34 @@
 using System;
+using UnityEngine;
 
 namespace Leaderboard
 {
     [Serializable]
     public class LeaderboardUser
     {
-        public int Id { get; }
-        public string Name { get; }
-        public float Score { get; }
+        [SerializeField]
+        private int id;
+        [SerializeField]
+        private string name;
+        [SerializeField]
+        private float score;
+
+        public int Id => id;
+        public string Name => name;
+        public float Score => score;
 
         public LeaderboardUser(string name, float score)
         {
-            Id = -1;
-            Name = name;
-            Score = score;
+            id = -1;
+            this.name = name;
+            this.score = score;
         }
 		
         public LeaderboardUser(int id, string name, float score)
         {
-            Id = id;
-            Name = name;
-            Score = score;
+            this.id = id;
+            this.name = name;
+            this.score = score;
         }
 
         public LeaderboardUser() : this("DefaultName", 10)

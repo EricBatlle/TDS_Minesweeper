@@ -11,7 +11,13 @@
 
 		public int GetScore()
 		{
-			return (int)userAliveStopwatchRepository.Get().ElapsedMilliseconds;
+			var userAliveStopwatch = userAliveStopwatchRepository.Get();
+			if (userAliveStopwatch != null)
+			{
+				return (int)userAliveStopwatch.ElapsedMilliseconds;
+			}
+
+			return 0;
 		}
 	}
 }

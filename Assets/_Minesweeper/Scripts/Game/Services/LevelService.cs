@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using Utils;
 
 namespace Game
@@ -33,6 +34,17 @@ namespace Game
 		public Level GetCurrent()
 		{
 			return levelRepository.Get();
+		}
+
+		public void UpdateLevel(Level level)
+		{
+			levelRepository.Update(level);
+		}
+
+		public int GetNeighborsWithBombCount(Level level, Cell cell)
+		{
+			var cellNeighbors = level.GetNeighborsOf(cell);
+			return cellNeighbors.Count(neighborCell => neighborCell.HasBomb);
 		}
 	}
 }

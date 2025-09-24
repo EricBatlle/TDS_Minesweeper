@@ -7,13 +7,11 @@ namespace Game
 		public event Action NewLevelSet;
 
 		private readonly LevelService levelService;
-		private readonly LevelRepository levelRepository;
 		private readonly LevelConfigProvider levelConfigProvider;
 
-		public SetLevelUseCase(LevelService levelService, LevelRepository levelRepository, LevelConfigProvider levelConfigProvider)
+		public SetLevelUseCase(LevelService levelService, LevelConfigProvider levelConfigProvider)
 		{
 			this.levelService = levelService;
-			this.levelRepository = levelRepository;
 			this.levelConfigProvider = levelConfigProvider;
 		}
 
@@ -21,7 +19,7 @@ namespace Game
 		{
 			var level = new Level(levelConfig);
 			levelService.PopulateLevelGrid(level, levelConfig);
-			levelRepository.Update(level);
+			levelService.UpdateLevel(level);
 			NewLevelSet?.Invoke();
 			return level;
 		}

@@ -96,15 +96,14 @@ namespace Game
 		{
 			if (timer.Id == TimerIds.CompleteChallengeTimerId && timer.State == TimerState.Stopped)
 			{
-				challengeCellService.FailChallenge();
+				challengeCellService.TimeoutChallenge();
 			}
 
 			if (timer.Id == TimerIds.ChallengeCellTimerId && timer.State == TimerState.Stopped)
 			{
-				challengeCellService.ChallengeCell();
+				challengeCellService.StartChallengeCell();
 			}
 		}
-
 
 		private void OnCellUnflagged(Cell cell)
 		{
@@ -113,7 +112,7 @@ namespace Game
 
 		private void OnCellFlagged(Cell cell)
 		{
-			challengeCellService.CheckChallenge(cell);
+			challengeCellService.ResolveChallengeFor(cell);
 			UpdateCellView(cell);
 		}
 
@@ -121,7 +120,7 @@ namespace Game
 		{
 			foreach (var cell in cells)
 			{
-				challengeCellService.CheckChallenge(cell);
+				challengeCellService.ResolveChallengeFor(cell);
 				UpdateCellView(cell);
 			}
 		}
@@ -133,7 +132,7 @@ namespace Game
 			{
 				Cell = cell,
 				CanShowBombsAround = cellService.CanCellShowBombsAround(cell),
-				BombsAroundCount = cellService.GetNeighborsWithBombCount(cell)
+				BombsAroundCount = levelService.GetNeighborsWithBombCount(levelService.GetCurrent(), cell)
 			});
 		}
 		
@@ -169,7 +168,7 @@ namespace Game
 		{
 			var cellView = cellViewsRepository.Get(cell);
 			cellView?.StopBlinking();
-			challengeCellService.StartChallengeWaiting();
+			challengeCellService.ScheduleNextChallenge();
 		}
 	}
 }

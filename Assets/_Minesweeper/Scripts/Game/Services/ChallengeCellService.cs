@@ -26,15 +26,17 @@ namespace Game
 			this.timerRepository = timerRepository;
 		}
 
-		public void CheckChallenge(Cell cell)
+		public void ResolveChallengeFor(Cell cell)
 		{
 			if (!IsCellChallenged(cell))
 			{
 				return;
 			}
 
+			PauseCompleteChallengeTimer();
 			cell.StopChallenge();
-			if (cell.HasBomb && cell.State == CellState.Flagged || (!cell.HasBomb && cell.State == CellState.Open))
+			var success = cell.HasBomb && cell.State == CellState.Flagged || (!cell.HasBomb && cell.State == CellState.Open);
+			if (success)
 			{
 				ChallengeCellSucceed?.Invoke(cell);
 				return;
@@ -44,25 +46,31 @@ namespace Game
 			ChallengeCellFailed?.Invoke(cell);
 		}
 
-		public void FailChallenge()
+		public void TimeoutChallenge()
 		{
 			var cell = levelService.GetCurrent().ChallengedCell;
 			gameService.SetGameFinalSelectedCell(cell);
 			ChallengeCellFailed?.Invoke(cell);
 		}
 
-		public void ChallengeCell()
+		public void StartChallengeCell()
 		{
 			var unopenCells = levelService.GetCurrent().CellsUnopen;
 			var randomUnopenCell = randomProvider.PickRandomOrDefault(unopenCells);
-			randomUnopenCell?.StartChallenge();
+			if (randomUnopenCell == null)
+			{
+				PauseChallenge();
+				return;
+			}
+
+			randomUnopenCell.StartChallenge();
 
 			PauseChallengeCellTimer();
 			StartCompleteChallengeTimer();
 			CellChallenged?.Invoke(randomUnopenCell);
 		}
 
-		public void StartChallengeWaiting()
+		public void ScheduleNextChallenge()
 		{
 			CreateChallengeTimers();
 			PauseCompleteChallengeTimer();

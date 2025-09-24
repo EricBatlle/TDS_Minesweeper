@@ -19,7 +19,7 @@ namespace Game
 		{
 			var userAliveStopwatch = userAliveStopwatchRepository.Get() ?? userAliveStopwatchRepository.Create();
 			userAliveStopwatch.Start();
-			challengeCellService.StartChallengeWaiting();
+			challengeCellService.ScheduleNextChallenge();
 			return UniTask.CompletedTask;
 		}
 

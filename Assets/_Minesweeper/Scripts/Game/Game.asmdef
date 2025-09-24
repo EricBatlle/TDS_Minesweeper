@@ -1,0 +1,24 @@
+{
+    "name": "Game",
+    "rootNamespace": "Game",
+    "references": [
+        "UniTask",
+        "VContainer",
+        "TriInspector",
+        "Unity.TextMeshPro",
+        "Utils",
+        "Utils.VContainer",
+        "NavigationSystem",
+        "Leaderboard",
+        "TimerModule"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

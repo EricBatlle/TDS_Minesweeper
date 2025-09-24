@@ -1,23 +1,26 @@
 ﻿namespace Utils
 {
+	// ToDo: Create base class for collections to avoid the ugliness like the one in UsersRepository
 	public abstract class BaseInMemoryRepository<T> : IRepository<T> where T : new()
 	{
-		private T inMemoryData;
+		protected T InMemoryData;
 		
-		public T Get()
+		// ToDo: This should return null if non existant
+		public virtual T Get()
 		{
-			return inMemoryData ?? Create();
+			return InMemoryData ?? Create();
 		}
 
-		public T Create()
+		public virtual T Create()
 		{
-			return new T();
+			InMemoryData = new T();
+			return InMemoryData;
 		}
 
-		public T Update(T data)
+		public virtual T Update(T data)
 		{
-			inMemoryData = data;
-			return inMemoryData;
+			InMemoryData = data;
+			return InMemoryData;
 		}
 	}
 }

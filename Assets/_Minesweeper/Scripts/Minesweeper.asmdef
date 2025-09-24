@@ -3,7 +3,8 @@
     "rootNamespace": "Minesweeper",
     "references": [
         "VContainer",
-        "UniTask"
+        "UniTask",
+        "Utils"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

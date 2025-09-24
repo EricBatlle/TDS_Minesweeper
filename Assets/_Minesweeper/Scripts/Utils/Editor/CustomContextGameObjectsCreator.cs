@@ -5,8 +5,7 @@ namespace Utils.Editor
 {
 	public class CustomContextGameObjectsCreator : MonoBehaviour
 	{
-		
-		private const string SettingsAssetPath = "Assets/_CroppedGame/Scripts/ScriptableObjects/CustomContextGameObjectsCreator/CustomContextSettings.asset"; 
+		private const string SettingsAssetPath = "Assets/_Minesweeper/ScriptableObjects/CustomContextSettings.asset"; 
 		private static CustomContextSettings settings;
 
 		private static CustomContextSettings Settings
@@ -19,16 +18,22 @@ namespace Utils.Editor
 			}
 		}
 		
-		[MenuItem("GameObject/Eric/Base Text", false, 10)]
+		[MenuItem("GameObject/Eric/Text", false, 10)]
 		private static void CreateBaseText(MenuCommand menuCommand)
 		{
 			CreateFromPrefab(Settings?.baseTextPrefab, "Base Text", menuCommand);
 		}
 
-		[MenuItem("GameObject/Eric/Base Button", false, 10)]
+		[MenuItem("GameObject/Eric/Button", false, 10)]
 		private static void CreateBaseButton(MenuCommand menuCommand)
 		{
 			CreateFromPrefab(Settings?.baseButtonPrefab, "Base Button", menuCommand);
+		}
+		
+		[MenuItem("GameObject/Eric/InputField", false, 10)]
+		private static void CreateBaseInputField(MenuCommand menuCommand)
+		{
+			CreateFromPrefab(Settings?.baseInputFieldPrefab, "Base InputField", menuCommand);
 		}
 
 		private static void CreateFromPrefab(Object prefab, string fallbackName, MenuCommand menuCommand)

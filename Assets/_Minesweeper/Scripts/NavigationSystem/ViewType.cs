@@ -2,6 +2,8 @@
 {
 	public enum ViewType
 	{
-		LanguageSelector,
+		Lose,
+		Win,
+		LeaderBoard,
 	}
 }

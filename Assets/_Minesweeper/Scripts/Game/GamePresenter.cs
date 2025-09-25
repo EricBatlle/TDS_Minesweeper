@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TimerModule;
 using VContainer.Unity;
 
 namespace Game
@@ -16,7 +15,6 @@ namespace Game
 		private readonly LevelService levelService;
 		private readonly CellService cellService;
 		private readonly GameService gameService;
-		private readonly TimerService timerService;
 		private readonly ChallengeCellService challengeCellService;
 
 		private readonly GameEndFlow gameEndFlow;
@@ -25,7 +23,6 @@ namespace Game
 
 		public GamePresenter(
 			ChallengeCellService challengeCellService,
-			TimerService timerService,
 			LevelService levelService,
 			GameEndFlow gameEndFlow,
 			SetLevelUseCase setLevelUseCase,
@@ -38,7 +35,6 @@ namespace Game
 			CellService cellService)
 		{
 			this.challengeCellService = challengeCellService;
-			this.timerService = timerService;
 			this.levelService = levelService;
 			this.gameEndFlow = gameEndFlow;
 			this.setLevelUseCase = setLevelUseCase;
@@ -53,7 +49,6 @@ namespace Game
 
 		public void Initialize()
 		{
-			timerService.TimerStateChanged += OnTimerStateChanged;
 			gameStateMachine.GameStateChanged += OnGameStateChanged;
 			selectCellUseCase.CellsOpened += OnCellsOpened;
 			tryFlagCellUseCase.CellFlagged += OnCellFlagged;
@@ -92,20 +87,6 @@ namespace Game
 			}
 		}
 
-		private void OnTimerStateChanged(Timer timer)
-		{
-			if (timer.Id == TimerIds.CompleteChallengeTimerId && timer.State == TimerState.Stopped)
-			{
-				challengeCellService.FailChallenge();
-			}
-
-			if (timer.Id == TimerIds.ChallengeCellTimerId && timer.State == TimerState.Stopped)
-			{
-				challengeCellService.ChallengeCell();
-			}
-		}
-
-
 		private void OnCellUnflagged(Cell cell)
 		{
 			UpdateCellView(cell);
@@ -113,7 +94,7 @@ namespace Game
 
 		private void OnCellFlagged(Cell cell)
 		{
-			challengeCellService.CheckChallenge(cell);
+			challengeCellService.ResolveChallengeFor(cell);
 			UpdateCellView(cell);
 		}
 
@@ -121,7 +102,7 @@ namespace Game
 		{
 			foreach (var cell in cells)
 			{
-				challengeCellService.CheckChallenge(cell);
+				challengeCellService.ResolveChallengeFor(cell);
 				UpdateCellView(cell);
 			}
 		}
@@ -133,7 +114,7 @@ namespace Game
 			{
 				Cell = cell,
 				CanShowBombsAround = cellService.CanCellShowBombsAround(cell),
-				BombsAroundCount = cellService.GetNeighborsWithBombCount(cell)
+				BombsAroundCount = levelService.GetNeighborsWithBombCount(levelService.GetCurrent(), cell)
 			});
 		}
 		
@@ -169,7 +150,7 @@ namespace Game
 		{
 			var cellView = cellViewsRepository.Get(cell);
 			cellView?.StopBlinking();
-			challengeCellService.StartChallengeWaiting();
+			challengeCellService.ScheduleNextChallenge();
 		}
 	}
 }

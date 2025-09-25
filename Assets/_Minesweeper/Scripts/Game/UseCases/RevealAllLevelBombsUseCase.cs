@@ -2,20 +2,20 @@
 {
 	public class RevealAllLevelBombsUseCase
 	{
-		private readonly LevelRepository levelRepository;
+		private readonly LevelService levelService;
 		private readonly GameService gameService;
 		private readonly CellViewsRepository cellViewsRepository;
 
-		public RevealAllLevelBombsUseCase(LevelRepository levelRepository, GameService gameService, CellViewsRepository cellViewsRepository)
+		public RevealAllLevelBombsUseCase(LevelService levelService, GameService gameService, CellViewsRepository cellViewsRepository)
 		{
-			this.levelRepository = levelRepository;
+			this.levelService = levelService;
 			this.gameService = gameService;
 			this.cellViewsRepository = cellViewsRepository;
 		}
 
 		public void Execute()
 		{
-			var level = levelRepository.Get();
+			var level = levelService.GetCurrent();
 			var selectedBomb = gameService.GetGameFinalSelectedCell();
 
 			foreach (var cell in level.CellsWithBomb)

@@ -10,18 +10,18 @@ namespace Game
 		public Action LevelCompleted;
 		public Action<Cell> BombSelected;
 
-		private readonly LevelRepository levelRepository;
+		private readonly LevelService levelService;
 		private readonly CellService cellService;
 		private readonly GameService gameService;
 
 		public SelectCellUseCase(
+			LevelService levelService,
 			GameService gameService,
-			CellService cellService, 
-			LevelRepository levelRepository)
+			CellService cellService)
 		{
 			this.gameService = gameService;
 			this.cellService = cellService;
-			this.levelRepository = levelRepository;
+			this.levelService = levelService;
 		}
 
 		public void Execute(Cell selectedCell)
@@ -39,7 +39,7 @@ namespace Game
 			}
 			else
 			{
-				var level = levelRepository.Get();
+				var level = levelService.GetCurrent();
 				var openedCells = new HashSet<Cell>();
 				OpenCellsRecursively(selectedCell, level, openedCells);
 				if (openedCells.Count > 0)

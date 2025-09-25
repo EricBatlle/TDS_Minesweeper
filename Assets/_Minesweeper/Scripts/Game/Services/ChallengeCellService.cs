@@ -24,8 +24,23 @@ namespace Game
 			this.randomProvider = randomProvider;
 			this.timerService = timerService;
 			this.timerRepository = timerRepository;
+
+			timerService.TimerStateChanged += OnTimerStateChanged;
 		}
 
+		private void OnTimerStateChanged(Timer timer)
+		{
+			if (timer.Id == TimerIds.CompleteChallengeTimerId && timer.State == TimerState.Stopped)
+			{
+				TimeoutChallenge();
+			}
+
+			if (timer.Id == TimerIds.ChallengeCellTimerId && timer.State == TimerState.Stopped)
+			{
+				StartChallengeCell();
+			}
+		}
+		
 		public void ResolveChallengeFor(Cell cell)
 		{
 			if (!IsCellChallenged(cell))

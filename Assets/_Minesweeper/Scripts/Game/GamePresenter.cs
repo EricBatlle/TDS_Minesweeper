@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TimerModule;
 using VContainer.Unity;
 
 namespace Game
@@ -16,7 +15,6 @@ namespace Game
 		private readonly LevelService levelService;
 		private readonly CellService cellService;
 		private readonly GameService gameService;
-		private readonly TimerService timerService;
 		private readonly ChallengeCellService challengeCellService;
 
 		private readonly GameEndFlow gameEndFlow;
@@ -25,7 +23,6 @@ namespace Game
 
 		public GamePresenter(
 			ChallengeCellService challengeCellService,
-			TimerService timerService,
 			LevelService levelService,
 			GameEndFlow gameEndFlow,
 			SetLevelUseCase setLevelUseCase,
@@ -38,7 +35,6 @@ namespace Game
 			CellService cellService)
 		{
 			this.challengeCellService = challengeCellService;
-			this.timerService = timerService;
 			this.levelService = levelService;
 			this.gameEndFlow = gameEndFlow;
 			this.setLevelUseCase = setLevelUseCase;
@@ -53,7 +49,6 @@ namespace Game
 
 		public void Initialize()
 		{
-			timerService.TimerStateChanged += OnTimerStateChanged;
 			gameStateMachine.GameStateChanged += OnGameStateChanged;
 			selectCellUseCase.CellsOpened += OnCellsOpened;
 			tryFlagCellUseCase.CellFlagged += OnCellFlagged;
@@ -89,19 +84,6 @@ namespace Game
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);
-			}
-		}
-
-		private void OnTimerStateChanged(Timer timer)
-		{
-			if (timer.Id == TimerIds.CompleteChallengeTimerId && timer.State == TimerState.Stopped)
-			{
-				challengeCellService.TimeoutChallenge();
-			}
-
-			if (timer.Id == TimerIds.ChallengeCellTimerId && timer.State == TimerState.Stopped)
-			{
-				challengeCellService.StartChallengeCell();
 			}
 		}
 

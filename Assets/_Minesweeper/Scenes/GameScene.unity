@@ -520,10 +520,6 @@ PrefabInstance:
       propertyPath: stopwatchView
       value: 
       objectReference: {fileID: 1868352309}
-    - target: {fileID: 6750055613664654634, guid: 1568a88666bf41148a4206ed25b38655, type: 3}
-      propertyPath: levelConfigData
-      value: 
-      objectReference: {fileID: 11400000, guid: c740306a6cc3e954ebb6125c94047b76, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -17,14 +17,11 @@ namespace Game
 		private NavigationSystem.NavigationSystem navigationSystem;
 		[Inject]
 		private SetLevelUseCase setLevelUseCase;
-		[Inject]
-		private LevelConfigRepository levelConfigRepository;
 
 		[Button]
 		public void RefreshLevel()
 		{
 			var levelConfig = new LevelConfig(levelConfigData);
-			// levelConfigRepository.Update(levelConfig);
 			setLevelUseCase.Execute(levelConfig);
 		}
 

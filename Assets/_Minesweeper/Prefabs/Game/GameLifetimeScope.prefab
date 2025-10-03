@@ -51,5 +51,7 @@ MonoBehaviour:
   editorCheater: {fileID: 11400000, guid: d9da58b1d3a15154abbb41d43586c5bb, type: 2}
   viewsContainer: {fileID: 11400000, guid: 76020768ca1a2e448b55a4e5c83a9699, type: 2}
   rootCanvas: {fileID: 0}
+  levelConfigData: {fileID: 11400000, guid: c740306a6cc3e954ebb6125c94047b76, type: 2}
   gridView: {fileID: 0}
   cellPrefab: {fileID: 1428248218743496816, guid: 802cab0eda44a93429b0bcfb783c894f, type: 3}
+  stopwatchView: {fileID: 0}

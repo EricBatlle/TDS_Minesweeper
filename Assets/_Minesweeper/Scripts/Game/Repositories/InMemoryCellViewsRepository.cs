@@ -4,7 +4,7 @@ using Utils;
 
 namespace Game
 {
-	public class CellViewsRepository : BaseInMemoryRepository<Dictionary<Cell, CellView>>
+	public class InMemoryCellViewsRepository : BaseInMemoryRepository<Dictionary<Cell, CellView>>, ICellViewsRepository
 	{
 		[CanBeNull]
 		public CellView Get(Cell cell)

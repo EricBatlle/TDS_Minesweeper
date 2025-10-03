@@ -43,20 +43,20 @@ namespace Game
 
             builder.Register<GameEndFlow>(Lifetime.Singleton);
 
-            builder.Register<CellViewsRepository>(Lifetime.Singleton);
-            builder.Register<LevelConfigRepository>(Lifetime.Singleton);
-            builder.Register<LevelRepository>(Lifetime.Singleton);
-            builder.Register<GameRepository>(Lifetime.Singleton);
-            builder.Register<UserAliveStopwatchRepository>(Lifetime.Singleton);
+            builder.Register<InMemoryCellViewsRepository>(Lifetime.Singleton).As<ICellViewsRepository>();
+            builder.Register<InMemoryLevelConfigRepository>(Lifetime.Singleton).As<ILevelConfigRepository>();
+            builder.Register<InMemoryLevelRepository>(Lifetime.Singleton).As<ILevelRepository>();
+            builder.Register<InMemoryGameRepository>(Lifetime.Singleton).As<IGameRepository>();
+            builder.Register<InMemoryUserAliveStopwatchRepository>(Lifetime.Singleton).As<IUserAliveStopwatchRepository>();
             
             builder.Register<LevelConfigProvider>(Lifetime.Singleton).WithParameter(levelConfigData);
             
-            builder.Register<CellService>(Lifetime.Singleton);
             builder.Register<LevelService>(Lifetime.Singleton);
             builder.Register<GameService>(Lifetime.Singleton);
             builder.Register<ScoreService>(Lifetime.Singleton);
             builder.Register<ChallengeCellService>(Lifetime.Singleton);
             builder.Register<LevelDifficultyAdjusterService>(Lifetime.Singleton);
+            builder.Register<UserAliveStopwatchService>(Lifetime.Singleton);
             
             builder.Register<SetLevelUseCase>(Lifetime.Singleton);
             builder.Register<TryFlagCellUseCase>(Lifetime.Singleton);

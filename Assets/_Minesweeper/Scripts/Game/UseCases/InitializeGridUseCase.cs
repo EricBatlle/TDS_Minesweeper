@@ -2,7 +2,7 @@
 
 namespace Game
 {
-	// ToDo: Revisit, I don't like the fact that this useCase can call another UseCase :/
+	// ToDo: Revisit, I don't like the fact that this useCase can call another UseCase, maybe those are just services? :/
 	public class InitializeGridUseCase
 	{
 		public event Action GridInitialized;
@@ -11,14 +11,14 @@ namespace Game
 		private readonly CellViewFactory cellViewFactory;
 		private readonly SelectCellUseCase selectCellUseCase;
 		private readonly TryFlagCellUseCase tryFlagCellUseCase;
-		private readonly CellViewsRepository cellViewsRepository;
+		private readonly ICellViewsRepository cellViewsRepository;
 
 		public InitializeGridUseCase(
 			GridView gridView,
 			CellViewFactory cellViewFactory,
 			SelectCellUseCase selectCellUseCase,
 			TryFlagCellUseCase tryFlagCellUseCase,
-			CellViewsRepository cellViewsRepository)
+			ICellViewsRepository cellViewsRepository)
 		{
 			this.tryFlagCellUseCase = tryFlagCellUseCase;
 			this.gridView = gridView;

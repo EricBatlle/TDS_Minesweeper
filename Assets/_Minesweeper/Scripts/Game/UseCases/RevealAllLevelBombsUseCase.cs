@@ -4,9 +4,9 @@
 	{
 		private readonly LevelService levelService;
 		private readonly GameService gameService;
-		private readonly CellViewsRepository cellViewsRepository;
+		private readonly ICellViewsRepository cellViewsRepository;
 
-		public RevealAllLevelBombsUseCase(LevelService levelService, GameService gameService, CellViewsRepository cellViewsRepository)
+		public RevealAllLevelBombsUseCase(LevelService levelService, GameService gameService, ICellViewsRepository cellViewsRepository)
 		{
 			this.levelService = levelService;
 			this.gameService = gameService;

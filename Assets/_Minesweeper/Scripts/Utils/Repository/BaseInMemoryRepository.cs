@@ -1,11 +1,10 @@
 ﻿namespace Utils
 {
-	// ToDo: Create base class for collections to avoid the ugliness like the one in UsersRepository
 	public abstract class BaseInMemoryRepository<T> : IRepository<T> where T : new()
 	{
 		protected T InMemoryData;
 		
-		// ToDo: This should return null if non existant
+		// ToDo: This should return null if non existent
 		public virtual T Get()
 		{
 			return InMemoryData ?? Create();
@@ -21,6 +20,11 @@
 		{
 			InMemoryData = data;
 			return InMemoryData;
+		}
+
+		public virtual void Delete()
+		{
+			InMemoryData = default;
 		}
 	}
 }

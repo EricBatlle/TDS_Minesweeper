@@ -2,9 +2,9 @@
 {
 	public class GameService
 	{
-		private readonly GameRepository gameRepository;
+		private readonly IGameRepository gameRepository;
 
-		public GameService(GameRepository gameRepository)
+		public GameService(IGameRepository gameRepository)
 		{
 			this.gameRepository = gameRepository;
 		}

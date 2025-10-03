@@ -43,7 +43,7 @@ namespace Game
 		
 		public void ResolveChallengeFor(Cell cell)
 		{
-			if (!IsCellChallenged(cell))
+			if (!cell.IsChallenged)
 			{
 				return;
 			}
@@ -97,11 +97,6 @@ namespace Game
 			PauseChallengeCellTimer();
 			PauseCompleteChallengeTimer();
 			ChallengePaused?.Invoke();
-		}
-
-		private bool IsCellChallenged(Cell cell)
-		{
-			return cell.IsChallenged;
 		}
 
 		private void CreateChallengeTimers()

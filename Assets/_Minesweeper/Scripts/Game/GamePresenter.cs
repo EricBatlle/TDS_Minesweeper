@@ -10,10 +10,9 @@ namespace Game
 		private readonly TryFlagCellUseCase tryFlagCellUseCase;
 		private readonly SelectCellUseCase selectCellUseCase;
 		private readonly SetLevelUseCase setLevelUseCase;
-		private readonly CellViewsRepository cellViewsRepository;
+		private readonly ICellViewsRepository cellViewsRepository;
 
 		private readonly LevelService levelService;
-		private readonly CellService cellService;
 		private readonly GameService gameService;
 		private readonly ChallengeCellService challengeCellService;
 
@@ -30,9 +29,8 @@ namespace Game
 			TryFlagCellUseCase tryFlagCellUseCase,
 			GameStateMachine gameStateMachine,
 			GameService gameService,
-			CellViewsRepository cellViewsRepository, 
-			SelectCellUseCase selectCellUseCase,
-			CellService cellService)
+			ICellViewsRepository cellViewsRepository, 
+			SelectCellUseCase selectCellUseCase)
 		{
 			this.challengeCellService = challengeCellService;
 			this.levelService = levelService;
@@ -44,7 +42,6 @@ namespace Game
 			this.gameService = gameService;
 			this.cellViewsRepository = cellViewsRepository;
 			this.selectCellUseCase = selectCellUseCase;
-			this.cellService = cellService;
 		}
 
 		public void Initialize()
@@ -113,7 +110,7 @@ namespace Game
 			cellView?.UpdateView(new CellViewData
 			{
 				Cell = cell,
-				CanShowBombsAround = cellService.CanCellShowBombsAround(cell),
+				CanShowBombsAround = CanCellShowBombsAround(cell),
 				BombsAroundCount = levelService.GetNeighborsWithBombCount(levelService.GetCurrent(), cell)
 			});
 		}
@@ -151,6 +148,11 @@ namespace Game
 			var cellView = cellViewsRepository.Get(cell);
 			cellView?.StopBlinking();
 			challengeCellService.ScheduleNextChallenge();
+		}
+		
+		private bool CanCellShowBombsAround(Cell cell)
+		{
+			return cell.State == CellState.Open;
 		}
 	}
 }

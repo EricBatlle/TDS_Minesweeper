@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace Leaderboard
 {
@@ -14,9 +13,7 @@ namespace Leaderboard
 
 		public void SaveLeaderboardEntry(UserLeaderboardSubmission userLeaderboardSubmission)
 		{
-			var user = leaderboardUsersRepository.Create(userLeaderboardSubmission.Name, userLeaderboardSubmission.Score);
-			Debug.LogWarning("New Leaderboard entry: "+user);
-			Debug.LogWarning("All Leaderboard entries: "+string.Join("\n",leaderboardUsersRepository.Get()));
+			leaderboardUsersRepository.Create(userLeaderboardSubmission.Name, userLeaderboardSubmission.Score);
 		}
 
 		public List<LeaderboardUser> GetAllLeaderboardEntries()

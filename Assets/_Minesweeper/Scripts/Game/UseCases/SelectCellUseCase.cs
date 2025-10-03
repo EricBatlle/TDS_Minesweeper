@@ -11,22 +11,19 @@ namespace Game
 		public Action<Cell> BombSelected;
 
 		private readonly LevelService levelService;
-		private readonly CellService cellService;
 		private readonly GameService gameService;
 
 		public SelectCellUseCase(
 			LevelService levelService,
-			GameService gameService,
-			CellService cellService)
+			GameService gameService)
 		{
 			this.gameService = gameService;
-			this.cellService = cellService;
 			this.levelService = levelService;
 		}
 
 		public void Execute(Cell selectedCell)
 		{
-			if (!cellService.CanCellBeSelected(selectedCell))
+			if (!CanCellBeSelected(selectedCell))
 			{
 				return;
 			}
@@ -47,7 +44,7 @@ namespace Game
 					CellsOpened?.Invoke(openedCells);
 				}
 
-				if (level.CellsWithoutBomb.Count(cell => cellService.CanCellBeSelected(cell)) == 0)
+				if (level.CellsWithoutBomb.Count(CanCellBeSelected) == 0)
 				{
 					LevelCompleted?.Invoke();
 				}
@@ -74,6 +71,11 @@ namespace Game
 					cell.State = CellState.Open;
 				}
 			}
+		}
+		
+		private bool CanCellBeSelected(Cell cell)
+		{
+			return cell.State is CellState.Unopen;
 		}
 	}
 }

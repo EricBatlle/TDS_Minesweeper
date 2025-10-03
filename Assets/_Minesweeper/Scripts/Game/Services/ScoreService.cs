@@ -2,22 +2,16 @@
 {
 	public class ScoreService
 	{
-		private readonly UserAliveStopwatchRepository userAliveStopwatchRepository;
+		private readonly UserAliveStopwatchService userAliveStopwatchService;
 
-		public ScoreService(UserAliveStopwatchRepository userAliveStopwatchRepository)
+		public ScoreService(UserAliveStopwatchService userAliveStopwatchService)
 		{
-			this.userAliveStopwatchRepository = userAliveStopwatchRepository;
+			this.userAliveStopwatchService = userAliveStopwatchService;
 		}
 
 		public int GetScore()
 		{
-			var userAliveStopwatch = userAliveStopwatchRepository.Get();
-			if (userAliveStopwatch != null)
-			{
-				return (int)userAliveStopwatch.ElapsedMilliseconds;
-			}
-
-			return 0;
+			return userAliveStopwatchService.GetElapsedMilliseconds();
 		}
 	}
 }

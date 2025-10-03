@@ -4,17 +4,12 @@ using Utils;
 
 namespace Game
 {
-	public class UserAliveStopwatchRepository : BaseInMemoryRepository<Stopwatch>
+	public class InMemoryUserAliveStopwatchRepository : BaseInMemoryRepository<Stopwatch>, IUserAliveStopwatchRepository
 	{
 		[CanBeNull]
 		public override Stopwatch Get()
 		{
 			return InMemoryData;
-		}
-
-		public void Delete()
-		{
-			InMemoryData = null;
 		}
 	}
 }

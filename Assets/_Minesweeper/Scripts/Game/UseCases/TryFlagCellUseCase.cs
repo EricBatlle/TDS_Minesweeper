@@ -7,22 +7,15 @@ namespace Game
 		public Action<Cell> CellFlagged;
 		public Action<Cell> CellUnflagged;
 
-		private readonly CellService cellService;
-
-		public TryFlagCellUseCase(CellService cellService)
-		{
-			this.cellService = cellService;
-		}
-
 		public void Execute(Cell cell)
 		{
-			if (cellService.CanCellBeFlagged(cell))
+			if (CanCellBeFlagged(cell))
 			{
 				FlagCell(cell);
 				return;
 			}
 
-			if (cellService.CanCellBeUnflagged(cell))
+			if (CanCellBeUnflagged(cell))
 			{
 				UnflagCell(cell);
 			}
@@ -38,6 +31,16 @@ namespace Game
 		{
 			cellToUnflag.State = CellState.Unopen;
 			CellUnflagged?.Invoke(cellToUnflag);
+		}
+		
+		private bool CanCellBeFlagged(Cell cell)
+		{
+			return cell.State is CellState.Unopen;
+		}
+		
+		private bool CanCellBeUnflagged(Cell cell)
+		{
+			return cell.State is CellState.Flagged;
 		}
 	}
 }

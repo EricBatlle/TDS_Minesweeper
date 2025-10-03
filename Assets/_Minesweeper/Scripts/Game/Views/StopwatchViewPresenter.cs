@@ -5,21 +5,17 @@ namespace Game
 	public class StopwatchViewPresenter : ITickable
 	{
 		private readonly StopwatchView stopwatchView;
-		private readonly UserAliveStopwatchRepository userAliveStopwatchRepository;
+		private readonly UserAliveStopwatchService userAliveStopwatchService;
 
-		public StopwatchViewPresenter(StopwatchView stopwatchView, UserAliveStopwatchRepository userAliveStopwatchRepository)
+		public StopwatchViewPresenter(StopwatchView stopwatchView, UserAliveStopwatchService userAliveStopwatchService)
 		{
 			this.stopwatchView = stopwatchView;
-			this.userAliveStopwatchRepository = userAliveStopwatchRepository;
+			this.userAliveStopwatchService = userAliveStopwatchService;
 		}
 
 		public void Tick()
 		{
-			var elapsedMilliseconds = userAliveStopwatchRepository.Get()?.ElapsedMilliseconds;
-			if (elapsedMilliseconds != null)
-			{
-				stopwatchView.UpdateView((int)elapsedMilliseconds);
-			}
+			stopwatchView.UpdateView(userAliveStopwatchService.GetElapsedMilliseconds());
 		}
 	}
 }

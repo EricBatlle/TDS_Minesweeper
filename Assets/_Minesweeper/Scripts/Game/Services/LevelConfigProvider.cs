@@ -2,11 +2,11 @@
 {
 	public class LevelConfigProvider
 	{
-		private readonly LevelConfigRepository levelConfigRepository;
+		private readonly ILevelConfigRepository levelConfigRepository;
 		private readonly LevelConfigData initialLevelConfig;
 		private readonly LevelDifficultyAdjusterService levelDifficultyAdjusterService;
 
-		public LevelConfigProvider(LevelConfigRepository levelConfigRepository, LevelConfigData initialLevelConfig, LevelDifficultyAdjusterService levelDifficultyAdjusterService)
+		public LevelConfigProvider(ILevelConfigRepository levelConfigRepository, LevelConfigData initialLevelConfig, LevelDifficultyAdjusterService levelDifficultyAdjusterService)
 		{
 			this.levelConfigRepository = levelConfigRepository;
 			this.initialLevelConfig = initialLevelConfig;

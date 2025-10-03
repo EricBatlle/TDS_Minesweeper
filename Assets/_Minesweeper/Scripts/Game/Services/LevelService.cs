@@ -6,10 +6,10 @@ namespace Game
 {
 	public class LevelService
 	{
-		private readonly LevelRepository levelRepository;
+		private readonly ILevelRepository levelRepository;
 		private readonly IRandomProvider randomProvider;
 
-		public LevelService(LevelRepository levelRepository, IRandomProvider randomProvider)
+		public LevelService(ILevelRepository levelRepository, IRandomProvider randomProvider)
 		{
 			this.levelRepository = levelRepository;
 			this.randomProvider = randomProvider;

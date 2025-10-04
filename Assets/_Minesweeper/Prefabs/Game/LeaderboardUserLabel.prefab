@@ -171,8 +171,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 1920, y: 140}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &6740998116234427422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,11 +201,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_text
-      value: arg aefrgag aegaerga ergggggggggggggggg
+      value: Username
       objectReference: {fileID: 0}
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_fontSize
-      value: 30.65
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
+      propertyPath: m_margin.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 6987648164375381034, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_Pivot.x
@@ -269,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6987648164375381034, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000015258789
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 6987648164375381034, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -322,11 +330,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_text
-      value: aragarga ragrgag a ar garga gae gaeg a
+      value: Score
       objectReference: {fileID: 0}
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_fontSize
-      value: 33.3
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
+      propertyPath: m_margin.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 6987648164375381034, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_Pivot.x

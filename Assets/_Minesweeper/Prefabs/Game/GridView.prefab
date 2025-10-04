@@ -108,7 +108,7 @@ MonoBehaviour:
   fitType: 3
   rows: 5
   columns: 0
-  cellSize: {x: NaN, y: 148.27121}
+  cellSize: {x: NaN, y: 242.72543}
   spacing: {x: 0, y: 0}
   fitX: 1
   fitY: 1

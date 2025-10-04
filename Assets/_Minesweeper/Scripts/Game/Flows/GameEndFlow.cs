@@ -12,6 +12,8 @@ namespace Game
         private readonly SetLevelUseCase setLevelUseCase;
         private readonly ScoreService scoreService;
 
+        private const int WaitingTimeBeforeLostFlowInMilliseconds = 1000;
+
         public GameEndFlow(RevealAllLevelBombsUseCase revealAllLevelBombsUseCase, NavigationSystem.NavigationSystem navigationSystem, LeaderboardService leaderboardService, SetLevelUseCase setLevelUseCase, ScoreService scoreService)
         {
             this.revealAllLevelBombsUseCase = revealAllLevelBombsUseCase;
@@ -26,6 +28,7 @@ namespace Game
             revealAllLevelBombsUseCase.Execute();
             if (gameEndReason == GameEndReason.Lose)
             {
+                await UniTask.Delay(WaitingTimeBeforeLostFlowInMilliseconds);
                 await GameLostFlow();
             }
             else

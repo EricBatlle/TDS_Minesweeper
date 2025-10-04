@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minesCount: 1
   rowsCount: 3
-  challengeCellFrequencyInSeconds: 40
+  challengeCellFrequencyInSeconds: 4
   timeToCompleteChallengeInSeconds: 5

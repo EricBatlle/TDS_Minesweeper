@@ -28,7 +28,7 @@ namespace Game
         private GameObject cellPrefab;
         [Header("Stopwatch")] 
         [SerializeField]
-        private StopwatchView stopwatchView;
+        private ScoreView scoreView;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -47,7 +47,7 @@ namespace Game
             builder.Register<InMemoryLevelConfigRepository>(Lifetime.Singleton).As<ILevelConfigRepository>();
             builder.Register<InMemoryLevelRepository>(Lifetime.Singleton).As<ILevelRepository>();
             builder.Register<InMemoryGameRepository>(Lifetime.Singleton).As<IGameRepository>();
-            builder.Register<InMemoryUserAliveStopwatchRepository>(Lifetime.Singleton).As<IUserAliveStopwatchRepository>();
+            builder.Register<InMemoryScoreRepository>(Lifetime.Singleton).As<IScoreRepository>();
             
             builder.Register<LevelConfigProvider>(Lifetime.Singleton).WithParameter(levelConfigData);
             
@@ -56,7 +56,6 @@ namespace Game
             builder.Register<ScoreService>(Lifetime.Singleton);
             builder.Register<ChallengeCellService>(Lifetime.Singleton);
             builder.Register<LevelDifficultyAdjusterService>(Lifetime.Singleton);
-            builder.Register<UserAliveStopwatchService>(Lifetime.Singleton);
             
             builder.Register<SetLevelUseCase>(Lifetime.Singleton);
             builder.Register<TryFlagCellUseCase>(Lifetime.Singleton);
@@ -64,13 +63,12 @@ namespace Game
             
             builder.Register<InitializeGridUseCase>(Lifetime.Singleton);
             builder.Register<RevealAllLevelBombsUseCase>(Lifetime.Singleton);
-            
 
             builder.RegisterInstance(gridView);
             builder.Register<CellViewFactory>(Lifetime.Singleton).WithParameter(cellPrefab);
 
-            builder.RegisterInstance(stopwatchView);
-            builder.Register<StopwatchViewPresenter>(Lifetime.Singleton).As<ITickable>();
+            builder.RegisterInstance(scoreView);
+            builder.Register<ScoreViewPresenter>(Lifetime.Singleton).As<IInitializable>();
             
             builder.RegisterBuildCallback(resolver =>
             {

@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Game
 {
-    public class StopwatchView : MonoBehaviour
+    public class ScoreView : MonoBehaviour
     {
         [SerializeField] 
         private TextMeshProUGUI timeAliveText;
 
         public void UpdateView(int score)
         {
-            timeAliveText.SetText("Time alive: {0}ms", score);
+            timeAliveText.SetText("Score: {0}", score);
         }
     }
 }

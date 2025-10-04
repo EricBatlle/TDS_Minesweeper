@@ -6,18 +6,15 @@ namespace Game
 	{
 		public GameState Id => GameState.Started;
 
-		private readonly UserAliveStopwatchService userAliveStopwatchService;
 		private readonly ChallengeCellService challengeCellService;
 
-		public StartedState(UserAliveStopwatchService userAliveStopwatchService, ChallengeCellService challengeCellService)
+		public StartedState(ChallengeCellService challengeCellService)
 		{
-			this.userAliveStopwatchService = userAliveStopwatchService;
 			this.challengeCellService = challengeCellService;
 		}
 
 		public UniTask Enter()
 		{
-			userAliveStopwatchService.Start();
 			challengeCellService.ScheduleNextChallenge();
 			return UniTask.CompletedTask;
 		}

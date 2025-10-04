@@ -99,6 +99,30 @@ namespace Game
 			ChallengePaused?.Invoke();
 		}
 
+		public TimeSpan GetChallengeDuration()
+		{
+			var challengeTimer = timerRepository.Get(TimerIds.CompleteChallengeTimerId);
+			if (challengeTimer != null)
+			{
+				return challengeTimer.Duration;
+			}
+
+			var level = levelService.GetCurrent();
+			return TimeSpan.FromSeconds(level.Config.TimeToCompleteChallengeInSeconds);
+		}
+		
+		public TimeSpan GetChallengeRemainingTime()
+		{
+			var challengeTimer = timerRepository.Get(TimerIds.CompleteChallengeTimerId);
+			if (challengeTimer != null)
+			{
+				return timerService.GetTimerRemainingTime(challengeTimer);
+			}
+
+			var level = levelService.GetCurrent();
+			return TimeSpan.FromSeconds(level.Config.TimeToCompleteChallengeInSeconds);
+		}
+
 		private void CreateChallengeTimers()
 		{
 			if (timerRepository.Get(TimerIds.CompleteChallengeTimerId) == null || timerRepository.Get(TimerIds.ChallengeCellTimerId) == null)

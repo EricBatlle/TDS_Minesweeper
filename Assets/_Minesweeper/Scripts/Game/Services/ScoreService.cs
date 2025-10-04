@@ -1,17 +1,34 @@
-﻿namespace Game
+﻿using System;
+
+namespace Game
 {
 	public class ScoreService
 	{
-		private readonly UserAliveStopwatchService userAliveStopwatchService;
+		public event Action ScoreUpdated;
 
-		public ScoreService(UserAliveStopwatchService userAliveStopwatchService)
+		private readonly IScoreRepository scoreRepository;
+
+		public ScoreService(IScoreRepository scoreRepository)
 		{
-			this.userAliveStopwatchService = userAliveStopwatchService;
+			this.scoreRepository = scoreRepository;
 		}
 
+		public void IncreaseScore(int amount)
+		{
+			var updatedScore = scoreRepository.Get() + amount;
+			scoreRepository.Update(updatedScore);
+			ScoreUpdated?.Invoke();
+		}
+		
 		public int GetScore()
 		{
-			return userAliveStopwatchService.GetElapsedMilliseconds();
+			return scoreRepository.Get();
+		}
+		
+		public void ResetScore()
+		{
+			scoreRepository.Delete();
+			ScoreUpdated?.Invoke();
 		}
 	}
 }

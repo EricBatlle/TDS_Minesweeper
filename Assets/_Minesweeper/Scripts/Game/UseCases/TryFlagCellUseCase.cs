@@ -4,8 +4,8 @@ namespace Game
 {
 	public class TryFlagCellUseCase
 	{
-		public Action<Cell> CellFlagged;
-		public Action<Cell> CellUnflagged;
+		public event Action<Cell> CellFlagged;
+		public event Action<Cell> CellUnflagged;
 
 		public void Execute(Cell cell)
 		{

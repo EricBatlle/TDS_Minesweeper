@@ -13,10 +13,5 @@ namespace NavigationSystem
 		{
 			closeCompleteTcs?.TrySetResult();
 		}
-
-		protected virtual void OnDestroy()
-		{
-			closeCompleteTcs?.TrySetResult();
-		}
 	}
 }

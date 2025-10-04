@@ -6,25 +6,24 @@ namespace Game
 	{
 		public GameState Id => GameState.Lose;
 
-		private readonly UserAliveStopwatchService userAliveStopwatchService;
+		private readonly ScoreService scoreService;
 		private readonly ChallengeCellService challengeCellService;
 
-		public LoseState(UserAliveStopwatchService userAliveStopwatchService, ChallengeCellService challengeCellService)
+		public LoseState(ScoreService scoreService, ChallengeCellService challengeCellService)
 		{
-			this.userAliveStopwatchService = userAliveStopwatchService;
+			this.scoreService = scoreService;
 			this.challengeCellService = challengeCellService;
 		}
 
 		public UniTask Enter()
 		{
-			userAliveStopwatchService.Stop();
 			challengeCellService.PauseChallenge();
 			return UniTask.CompletedTask;
 		}
 
 		public UniTask Exit()
 		{
-			userAliveStopwatchService.Delete();
+			scoreService.ResetScore();
 			return UniTask.CompletedTask;
 		}
 	}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6247621421055104148}
   - component: {fileID: 4126397096217058422}
   m_Layer: 5
-  m_Name: Stopwatch
+  m_Name: ScoreView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_text
-      value: 'Time alive:'
+      value: 'Score:'
       objectReference: {fileID: 0}
     - target: {fileID: 2549424640874659942, guid: c88665631a8097e469f2120be5203464, type: 3}
       propertyPath: m_fontSize

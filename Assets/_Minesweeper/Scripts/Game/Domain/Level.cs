@@ -11,6 +11,7 @@ namespace Game
 		public List<Cell> CellsWithBomb => grid.Where(cell => cell.HasBomb).ToList();
 		public List<Cell> CellsWithoutBomb => grid.Where(cell => !cell.HasBomb).ToList();
 		public List<Cell> CellsUnopen => grid.Where(cell => cell.State == CellState.Unopen).ToList();
+		public List<Cell> CellsOpen => grid.Where(cell => cell.State == CellState.Open).ToList();
 		[CanBeNull]
 		public Cell ChallengedCell => grid.FirstOrDefault(cell => cell.IsChallenged);
 		

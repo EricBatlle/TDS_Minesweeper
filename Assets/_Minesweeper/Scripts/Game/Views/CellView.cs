@@ -39,6 +39,8 @@ namespace Game
         private float blinkingFrequencyInSeconds = 1;
         [SerializeField, Range(0f, 1f)] 
         private float blinkMinAlpha = 0.4f;
+        [SerializeField] 
+        private Image blinkingTimerImage;
         [Space]
         [SerializeField]
         private List<CellColorAndStateTuple> cellColorAndStateTuples;
@@ -52,11 +54,14 @@ namespace Game
         private CancellationTokenSource blinkingCts;
         private Color baseBackgroundColor;
         private bool isBlinking;
+        private float blinkingDurationInSeconds;
 
         private void Awake()
         {
 	        button.onLeftClick.AddListener(OnCellLeftClicked);
 	        button.onRightClick.AddListener(OnCellRightClicked);
+
+	        blinkingTimerImage.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
@@ -66,9 +71,10 @@ namespace Game
 	        blinkingCts = null;
         }
 
-        public void SetUp(Cell newCell)
+        public void SetUp(Cell newCell, TimeSpan challengeDuration)
         {
 	        cell = newCell;
+	        blinkingDurationInSeconds = (float)challengeDuration.TotalSeconds;
         }
 
         public void UpdateView(CellViewData viewData)
@@ -145,10 +151,12 @@ namespace Game
 	        blinkingCts?.Cancel();
 	        blinkingCts?.Dispose();
 	        blinkingCts = new CancellationTokenSource();
+	        
+	        ShowBlinkingTimerFull();
 
 	        BlinkLoop(blinkingCts.Token).Forget();
         }
-        
+
         [Button]
         public void StopBlinking()
         {
@@ -163,27 +171,74 @@ namespace Game
 	        blinkingCts?.Dispose();
 	        blinkingCts = null;
 
+	        HideBlinkingTimer();
 	        SetCellBackgroundColor(GetBackgroundColorByCellState(cell.State));
         }
 
         private async UniTaskVoid BlinkLoop(CancellationToken ct)
+		{
+			var period = Mathf.Max(0.02f, blinkingFrequencyInSeconds);
+
+		    var baseColorNow = GetBackgroundColorByCellState(cell.State);
+		    baseBackgroundColor = baseColorNow;
+
+		    var aMin = baseBackgroundColor.a * Mathf.Clamp01(blinkMinAlpha);
+		    var aMax = baseBackgroundColor.a;
+		    var startTime = Time.unscaledTime;
+
+		    if (blinkingTimerImage != null)
+		    {
+		        blinkingTimerImage.gameObject.SetActive(true);
+		        blinkingTimerImage.fillAmount = 1f;
+		    }
+
+		    while (!ct.IsCancellationRequested)
+		    {
+		        var elapsed = Time.unscaledTime - startTime;
+		        if (blinkingTimerImage != null && blinkingDurationInSeconds > 0f)
+		        {
+		            var t = Mathf.Clamp01(elapsed / blinkingDurationInSeconds);
+		            blinkingTimerImage.fillAmount = 1f - t;
+
+		            if (t >= 1f)
+		            {
+		                break;
+		            }
+		        }
+		        var phase01 = (elapsed % period) / period;
+		        var wave01 = (Mathf.Sin(phase01 * Mathf.PI * 2f) + 1f) * 0.5f;
+		        var alpha = Mathf.Lerp(aMin, aMax, wave01);
+
+		        var c = GetBackgroundColorByCellState(cell.State);
+		        c.a = alpha;
+		        SetCellBackgroundColor(c);
+		        await UniTask.Yield(cancellationToken: ct);
+		    }
+
+		    SetCellBackgroundColor(GetBackgroundColorByCellState(cell.State));
+		    HideBlinkingTimer();
+		}
+
+        private void ShowBlinkingTimerFull()
         {
-	        var halfPeriodSeconds = Mathf.Max(0.01f, blinkingFrequencyInSeconds / 2f);
-
-	        var faded = baseBackgroundColor;
-	        faded.a = baseBackgroundColor.a * Mathf.Clamp01(blinkMinAlpha);
-
-	        var showFaded = false;
-
-	        while (!ct.IsCancellationRequested)
+	        if (blinkingTimerImage == null)
 	        {
-		        SetCellBackgroundColor(showFaded ? faded : GetBackgroundColorByCellState(cell.State));
-		        showFaded = !showFaded;
-
-		        await UniTask.Delay(TimeSpan.FromSeconds(halfPeriodSeconds), cancellationToken: ct);
+		        return;
 	        }
 
-	        SetCellBackgroundColor(baseBackgroundColor);
+	        blinkingTimerImage.gameObject.SetActive(true);
+	        blinkingTimerImage.fillAmount = 1f;
+        }
+
+        private void HideBlinkingTimer()
+        {
+	        if (blinkingTimerImage == null)
+	        {
+		        return;
+	        }
+
+	        blinkingTimerImage.gameObject.SetActive(false);
+	        blinkingTimerImage.fillAmount = 0f;
         }
 	}
 }

@@ -6,9 +6,9 @@ namespace Game
 {
 	public class SelectCellUseCase
 	{
-		public Action<HashSet<Cell>> CellsOpened;
-		public Action LevelCompleted;
-		public Action<Cell> BombSelected;
+		public event Action<HashSet<Cell>> CellsOpened;
+		public event Action LevelCompleted;
+		public event Action<Cell> BombSelected;
 
 		private readonly LevelService levelService;
 		private readonly GameService gameService;

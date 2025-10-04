@@ -17,12 +17,20 @@ namespace Game
 		private NavigationSystem.NavigationSystem navigationSystem;
 		[Inject]
 		private SetLevelUseCase setLevelUseCase;
+		[Inject]
+		private SelectCellUseCase selectCellUseCase;
 
 		[Button]
 		public void RefreshLevel()
 		{
 			var levelConfig = new LevelConfig(levelConfigData);
 			setLevelUseCase.Execute(levelConfig);
+		}
+		
+		[Button]
+		public void Lose()
+		{
+			selectCellUseCase.Execute(new Cell(CellState.Unopen, true, new Vector2Int()));
 		}
 
 		[Button]

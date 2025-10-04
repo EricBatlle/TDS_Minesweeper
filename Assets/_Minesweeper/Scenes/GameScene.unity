@@ -513,6 +513,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8185465333664042464}
     - target: {fileID: 6750055613664654634, guid: 1568a88666bf41148a4206ed25b38655, type: 3}
+      propertyPath: scoreView
+      value: 
+      objectReference: {fileID: 1868352309}
+    - target: {fileID: 6750055613664654634, guid: 1568a88666bf41148a4206ed25b38655, type: 3}
       propertyPath: rootCanvas
       value: 
       objectReference: {fileID: 2125856385}
@@ -642,7 +646,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2223757850016674646, guid: ef2de34557969954b8e09a33ca9aa3b8, type: 3}
       propertyPath: m_Name
-      value: Stopwatch
+      value: ScoreView
       objectReference: {fileID: 0}
     - target: {fileID: 6247621421055104148, guid: ef2de34557969954b8e09a33ca9aa3b8, type: 3}
       propertyPath: m_Pivot.x

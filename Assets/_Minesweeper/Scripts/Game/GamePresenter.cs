@@ -14,6 +14,7 @@ namespace Game
 
 		private readonly LevelService levelService;
 		private readonly GameService gameService;
+		private readonly ScoreService scoreService;
 		private readonly ChallengeCellService challengeCellService;
 
 		private readonly GameEndFlow gameEndFlow;
@@ -21,6 +22,7 @@ namespace Game
 		private readonly GameStateMachine gameStateMachine;
 
 		public GamePresenter(
+			ScoreService scoreService,
 			ChallengeCellService challengeCellService,
 			LevelService levelService,
 			GameEndFlow gameEndFlow,
@@ -32,6 +34,7 @@ namespace Game
 			ICellViewsRepository cellViewsRepository, 
 			SelectCellUseCase selectCellUseCase)
 		{
+			this.scoreService = scoreService;
 			this.challengeCellService = challengeCellService;
 			this.levelService = levelService;
 			this.gameEndFlow = gameEndFlow;
@@ -56,6 +59,7 @@ namespace Game
 			challengeCellService.ChallengePaused += OnChallengePaused;
 
 			gameService.CreateGame();
+			scoreService.ResetScore();
 			setLevelUseCase.FirstLevel();
 		}
 
@@ -97,6 +101,8 @@ namespace Game
 
 		private void OnCellsOpened(HashSet<Cell> cells)
 		{
+			scoreService.IncreaseScore(cells.Count);
+
 			foreach (var cell in cells)
 			{
 				challengeCellService.ResolveChallengeFor(cell);

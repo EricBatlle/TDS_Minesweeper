@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Leaderboard
 {
@@ -18,7 +19,7 @@ namespace Leaderboard
 
 		public List<LeaderboardUser> GetAllLeaderboardEntries()
 		{
-			return leaderboardUsersRepository.Get();
+			return leaderboardUsersRepository.Get().OrderByDescending(leaderboardUser => leaderboardUser.Score).ToList();
 		}
 	}
 }

@@ -667,7 +667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6252799945756410435, guid: 86da82445295d2941b093ff6c1231239, type: 3}
       propertyPath: m_text
-      value: LeaderBoard
+      value: Minesweeper
       objectReference: {fileID: 0}
     - target: {fileID: 6719801814846257701, guid: 86da82445295d2941b093ff6c1231239, type: 3}
       propertyPath: m_Name

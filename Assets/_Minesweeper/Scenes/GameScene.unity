@@ -625,6 +625,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 9002134880889080000, guid: d23e820c236f6da4e80fa38033a21991, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2871887780493980689, guid: 1d09ab39d51504369abbcdca79136c87, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -755,7 +759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6161347144130994792, guid: c5bab955bcbf8bc458c09c9745e22db4, type: 3}
       propertyPath: cellSize.y
-      value: 137.58583
+      value: 137.59999
       objectReference: {fileID: 0}
     - target: {fileID: 7203585028607394047, guid: c5bab955bcbf8bc458c09c9745e22db4, type: 3}
       propertyPath: m_Pivot.x

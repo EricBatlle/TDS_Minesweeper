@@ -11,9 +11,9 @@ namespace Leaderboard
         [SerializeField] 
         private TextMeshProUGUI userScoreText;
 
-        public void UpdateView(LeaderboardUserLabelViewData viewData)
+        public void UpdateView(int position, LeaderboardUserLabelViewData viewData)
         {
-            userNameText.text = viewData.UserName;
+            userNameText.text = position.ToString() +" - " + viewData.UserName;
             userScoreText.text = viewData.UserScore.ToString(CultureInfo.InvariantCulture);
         }
     }

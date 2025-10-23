@@ -29,17 +29,19 @@ namespace Leaderboard
         public void UpdateView(LeaderboardViewData viewData)
         {
             labelsParentTransform.DestroyAllChilds();
+            var position = 1;
             foreach (var user in viewData.UsersToShow)
             {
-                CreateUserLabel(user);
+                CreateUserLabel(position, user);
+                position++;
             }
         }
 
-        private void CreateUserLabel(LeaderboardUser user)
+        private void CreateUserLabel(int position, LeaderboardUser user)
         {
             var labelGameObject = Instantiate(userLabelPrefab, labelsParentTransform, false);
             var leaderboardUserLabelView = labelGameObject.GetComponent<LeaderboardUserLabelView>();
-            leaderboardUserLabelView.UpdateView(new LeaderboardUserLabelViewData(user.Name, user.Score));
+            leaderboardUserLabelView.UpdateView(position, new LeaderboardUserLabelViewData(user.Name, user.Score));
         }
         
         private void OnPlayAgain()

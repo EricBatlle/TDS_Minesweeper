@@ -75,6 +75,7 @@ namespace Game
         {
 	        cell = newCell;
 	        blinkingDurationInSeconds = (float)challengeDuration.TotalSeconds;
+	        SetCellBackground(cell.State);
         }
 
         public void UpdateView(CellViewData viewData)

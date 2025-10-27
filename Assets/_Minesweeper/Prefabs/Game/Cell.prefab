@@ -73,7 +73,7 @@ MonoBehaviour:
   blinkingTimerImage: {fileID: 658254634044088343}
   cellColorAndStateTuples:
   - state: 0
-    color: {r: 0.8018868, g: 0.7602795, b: 0.7602795, a: 1}
+    color: {r: 1, g: 1, b: 1, a: 1}
   - state: 1
     color: {r: 0.18498743, g: 1, b: 0, a: 1}
   - state: 2
